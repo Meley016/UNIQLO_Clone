@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "image": "image.png",
+    "name": "Áo thun nam",
+    "code": "ATN001",
+    "price": 200000,
+    "category": "T-Shirt"
+  },
+  {
+    "id": 2,
+    "image": "image.png",
+    "name": "Quần jeans slim fit",
+    "code": "QJ002",
+    "price": 350000,
+    "category": "Pants"
+  },
+  {
+    "id": 3,
+    "image": "image.png",
+    "name": "Quần jeans rách gối",
+    "code": "QJ003",
+    "price": 380000,
+    "category": "Pants"
+  },
+  {
+    "id": 4,
+    "image": "image.png",
+    "name": "Quần jeans đen",
+    "code": "QJ004",
+    "price": 400000,
+    "category": "Pants"
+  },
+  {
+    "id": 5,
+    "image": "image.png",
+    "name": "Quần jeans xanh nhạt",
+    "code": "QJ005",
+    "price": 370000,
+    "category": "Pants"
+  },
+  {
+    "id": 6,
+    "image": "image.png",
+    "name": "Áo hoodie xám",
+    "code": "HD001",
+    "price": 450000,
+    "category": "Hoodie"
+  },
+  {
+    "id": 7,
+    "image": "image.png",
+    "name": "Áo hoodie đen",
+    "code": "HD002",
+    "price": 480000,
+    "category": "Hoodie"
+  },
+  {
+    "id": 8,
+    "image": "image.png",
+    "name": "Áo thun nữ cổ tròn",
+    "code": "ATN002",
+    "price": 180000,
+    "category": "T-Shirt"
+  },
+  {
+    "id": 9,
+    "image": "image.png",
+    "name": "Áo thun nam in hình",
+    "code": "ATN003",
+    "price": 220000,
+    "category": "T-Shirt"
+  },
+  {
+    "id": 10,
+    "image": "image.png",
+    "name": "Áo khoác gió",
+    "code": "AKG001",
+    "price": 550000,
+    "category": "Jacket"
+  },
+  {
+    "id": 11,
+    "image": "image.png",
+    "name": "Mũ lưỡi trai",
+    "code": "MLT001",
+    "price": 120000,
+    "category": "Hats"
+  },
+  {
+    "id": 12,
+    "image": "image.png",
+    "name": "Tất thể thao",
+    "code": "TTT001",
+    "price": 50000,
+    "category": "Socks"
+  },
+  {
+    "id": 13,
+    "image": "image.png",
+    "name": "Ly sứ trắng",
+    "code": "LS001",
+    "price": 80000,
+    "category": "Mug"
+  },
+  {
+    "id": 14,
+    "image": "image.png",
+    "name": "Tranh canvas phong cảnh",
+    "code": "CV001",
+    "price": 300000,
+    "category": "Canvas"
+  },
+  {
+    "id": 15,
+    "image": "image.png",
+    "name": "Áo sơ mi nam",
+    "code": "ASM001",
+    "price": 320000,
+    "category": "Shirt"
+  }
+]
