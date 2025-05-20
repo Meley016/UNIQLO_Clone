@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const AppFooter = () => {
   return (
     <footer className="relative bg-gray-900 text-gray-300 py-10">
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-0">
         <div className="flex justify-center space-x-12 mb-8 text-sm">
           <div className="flex items-center">
             <span className="mr-2">↻</span>

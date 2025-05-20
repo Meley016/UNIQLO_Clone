@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { MenuOutlined, SearchOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons';
+import ProductList from '../components/products/ProductList';
 
 const { Header } = Layout;
 
 const AppHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/categories.json');
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="relative">
@@ -65,23 +85,42 @@ const AppHeader = () => {
       </Header>
       {isMenuOpen && (
         <div className="fixed font-medium mb-6 inset-0 z-50 flex">
+          {/* Menu Category - Chiếm 1/4 màn hình */}
           <div className="w-1/4 bg-white shadow-lg">
             <Menu
-              className='my-12 mx-6'
+              className="my-12 mx-6"
               mode="vertical"
-              items={[
-                { key: '1', label: <Link to="/men" onClick={() => setIsMenuOpen(false)} className="text-2xl my-12">Đồ Nam</Link> },
-                { key: '2', label: <Link to="/women" onClick={() => setIsMenuOpen(false)} className="text-2xl my-12">Đồ Nữ</Link> },
-                { key: '3', label: <Link to="/handbags" onClick={() => setIsMenuOpen(false)} className="text-2xl my-12">Túi Xách</Link> },
-                { key: '4', label: <Link to="/shoes" onClick={() => setIsMenuOpen(false)} className="text-2xl my-12">Giày</Link> },
-                { key: '5', label: <Link to="/accessories" onClick={() => setIsMenuOpen(false)} className="text-2xl my-12">Phụ Kiện</Link> },
-              ]}
+              items={categories.map((category) => ({
+                key: category.id.toString(),
+                label: (
+                  <Link
+                    to={`/${category.name.toLowerCase()}`}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-2xl my-12"
+                    onMouseEnter={() => setHoveredCategory(category)} // Cập nhật category khi hover
+                  >
+                    {category.name}
+                  </Link>
+                ),
+              }))}
               style={{ backgroundColor: 'white', color: 'black', height: '90%' }}
             />
           </div>
+
+          {/* ProductList - Hiển thị khi hover, chiếm 2/4 màn hình */}
+          {hoveredCategory && (
+            <div className="w-2/4 bg-white shadow-lg">
+              <ProductList categoryId={hoveredCategory.name} />
+            </div>
+          )}
+
+          {/* Overlay để đóng menu và ProductList */}
           <div
             className="flex-1 bg-black bg-opacity-50 backdrop-blur-sm"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => {
+              setIsMenuOpen(false); // Đóng menu
+              setHoveredCategory(null); // Đóng ProductList
+            }}
           />
         </div>
       )}

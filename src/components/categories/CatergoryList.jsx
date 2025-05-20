@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Category from './Category';
+import Category from '../common/Category';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -12,7 +12,7 @@ const CategoryList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/categories.json');
+        const response = await fetch('/fake_api');
         if (!response.ok) {
           throw new Error('Không thể tải dữ liệu danh mục');
         }

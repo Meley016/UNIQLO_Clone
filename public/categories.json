@@ -1,0 +1,9 @@
+[
+  { "id": 1, "name": "Sweatshirt", "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/sweat-shirt-768x499.webp" },
+  { "id": 2, "name": "T-Shirt", "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/T-SHIRT-768x500.webp" },
+  { "id": 3, "name": "Hoodie", "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/Hoodie-768x500.webp" },
+  { "id": 4, "name": "Mug", "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/Mug-768x500.webp" },
+  { "id": 5, "name": "Canvas", "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/Canvas-768x500.webp" },
+  { "id": 6, "name": "Hats", "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/Hats-768x500.webp" },
+  { "id": 7, "name": "Socks", "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/Socks-768x500.webp" }
+]

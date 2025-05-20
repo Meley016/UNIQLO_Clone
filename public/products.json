@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "image": "image.png",
+    "name": "Áo thun nam",
+    "code": "ATN001",
+    "price": 200000
+  },
+  {
+    "id": 2,
+    "image": "image.png",
+    "name": "Quần jeans",
+    "code": "QJ002",
+    "price": 350000
+  },
+  {
+    "id": 2,
+    "image": "image.png",
+    "name": "Quần jeans",
+    "code": "QJ002",
+    "price": 350000
+  },
+  {
+    "id": 2,
+    "image": "image.png",
+    "name": "Quần jeans",
+    "code": "QJ002",
+    "price": 350000
+  },
+  {
+    "id": 2,
+    "image": "image.png",
+    "name": "Quần jeans",
+    "code": "QJ002",
+    "price": 350000
+  }
+]
