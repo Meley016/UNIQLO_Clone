@@ -118,5 +118,37 @@
     "code": "ASM001",
     "price": 320000,
     "category": "Shirt"
+  },
+  {
+    "id": 16,
+    "image": "image.png",
+    "name": "Áo thun nữ Yamate",
+    "code": "ATN002",
+    "price": 180000,
+    "category": "T-Shirt"
+  },
+  {
+    "id": 17,
+    "image": "image.png",
+    "name": "Áo thun nữ Yamate",
+    "code": "ATN002",
+    "price": 180000,
+    "category": "T-Shirt"
+  },
+  {
+    "id": 18,
+    "image": "image.png",
+    "name": "Áo thun nữ Yamate",
+    "code": "ATN002",
+    "price": 180000,
+    "category": "T-Shirt"
+  },
+  {
+    "id": 19,
+    "image": "image.png",
+    "name": "Áo thun nữ Yamate",
+    "code": "ATN002",
+    "price": 180000,
+    "category": "T-Shirt"
   }
 ]

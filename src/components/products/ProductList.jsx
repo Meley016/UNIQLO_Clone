@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 import ProductCard from '../common/ProductCard';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { Link } from 'react-router-dom';
 
 const ProductList = ({ categoryId }) => {
   const [products, setProducts] = useState([]);
@@ -69,25 +70,32 @@ const ProductList = ({ categoryId }) => {
 
   if (products.length === 0) {
     return (
-      <div className="text-center text-gray-500 p-4">
+      <div className="text-center my-12 text-gray-500 p-4">
         Không có sản phẩm nào cho danh mục {categoryId}
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 z-50 py-8">
       <h2 className="text-xl font-bold mb-4">Sản phẩm {categoryId}</h2>
-        {products.map((product) => (
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center'>
+          {products.map((product) => (
           <div key={product.id} className="px-2">
+          <Link
+            to={`/product/${product.id}`}
+          >
             <ProductCard
+              id={product.id}
               image={product.image}
               name={product.name}
               code={product.code}
               price={product.price}
             />
+          </Link>
           </div>
         ))}
+        </div>
     </div>
   );
 };

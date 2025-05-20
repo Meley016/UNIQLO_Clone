@@ -1,16 +1,23 @@
 import React from 'react';
 
-const Category = ({ name, image }) => {
+const CategoryCard = ({ image, name }) => {
   return (
-    <div className="bg-gray-200 p-4 rounded-lg text-center">
+    <div className="border border-gray-200 rounded-lg p-4 w-52 text-center shadow-md m-4">
       <img
         src={image}
-        alt={name}
-        className="w-full h-48 object-cover mx-auto mb-2"
+        className="w-full h-36 object-cover rounded-lg"
       />
-      <h3 className="text-lg font-semibold">{name.toUpperCase()}</h3>
+      <h2 className="text-lg font-semibold text-gray-800 mt-3 mb-2">{name}</h2>
+      <div className="flex justify-between text-sm text-gray-600">
+      </div>
+      <button
+        className="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-300"
+        onClick={(e) => e.stopPropagation()} 
+      >
+        Xem
+      </button>
     </div>
   );
 };
 
-export default Category;
+export default CategoryCard;
