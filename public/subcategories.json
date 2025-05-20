@@ -1,0 +1,119 @@
+[
+  {
+    "parentCategoryId": 1,
+    "parentCategoryName": "Sweatshirt",
+    "subcategories": [
+      {
+        "id": 101,
+        "name": "Sweatshirt Crewneck",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/sweatshirt-crewneck-768x499.webp"
+      },
+      {
+        "id": 102,
+        "name": "Sweatshirt Oversized",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/sweatshirt-oversized-768x499.webp"
+      }
+    ]
+  },
+  {
+    "parentCategoryId": 2,
+    "parentCategoryName": "T-Shirt",
+    "subcategories": [
+      {
+        "id": 201,
+        "name": "T-Shirt Nam",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/tshirt-men-768x500.webp"
+      },
+      {
+        "id": 202,
+        "name": "T-Shirt Nữ",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/tshirt-women-768x500.webp"
+      },
+      {
+        "id": 203,
+        "name": "T-Shirt Unisex",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/tshirt-unisex-768x500.webp"
+      }
+    ]
+  },
+  {
+    "parentCategoryId": 3,
+    "parentCategoryName": "Hoodie",
+    "subcategories": [
+      {
+        "id": 301,
+        "name": "Hoodie Zipper",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/hoodie-zipper-768x500.webp"
+      },
+      {
+        "id": 302,
+        "name": "Hoodie Pullover",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/hoodie-pullover-768x500.webp"
+      }
+    ]
+  },
+  {
+    "parentCategoryId": 4,
+    "parentCategoryName": "Mug",
+    "subcategories": [
+      {
+        "id": 401,
+        "name": "Mug Ceramic",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/mug-ceramic-768x500.webp"
+      },
+      {
+        "id": 402,
+        "name": "Mug Travel",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/mug-travel-768x500.webp"
+      }
+    ]
+  },
+  {
+    "parentCategoryId": 5,
+    "parentCategoryName": "Canvas",
+    "subcategories": [
+      {
+        "id": 501,
+        "name": "Canvas Wall Art",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/canvas-wall-768x500.webp"
+      },
+      {
+        "id": 502,
+        "name": "Canvas Framed",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/canvas-framed-768x500.webp"
+      }
+    ]
+  },
+  {
+    "parentCategoryId": 6,
+    "parentCategoryName": "Hats",
+    "subcategories": [
+      {
+        "id": 601,
+        "name": "Baseball Cap",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/baseball-cap-768x500.webp"
+      },
+      {
+        "id": 602,
+        "name": "Beanie",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/beanie-768x500.webp"
+      }
+    ]
+  },
+  {
+    "parentCategoryId": 7,
+    "parentCategoryName": "Socks",
+    "subcategories": [
+      {
+        "id": 701,
+        "name": "Crew Socks",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/crew-socks-768x500.webp"
+      },
+      {
+        "id": 702,
+        "name": "Ankle Socks",
+        "image": "https://teeholic.s3.amazonaws.com/wp-content/uploads/2024/11/ankle-socks-768x500.webp"
+      }
+    ]
+  }
+]

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Menu } from 'antd';
+import { RightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { MenuOutlined, SearchOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons';
 import ProductList from '../components/products/ProductList';
+import SubCategoryList from '../components/categories/SubCategoryList';
 
 const { Header } = Layout;
 
@@ -65,7 +67,11 @@ const AppHeader = () => {
             className="flex items-center text-3xl md:text-4xl lg:text-5xl font-serif uppercase tracking-widest text-black font-bold mx-auto"
             style={{ lineHeight: '100px' }}
           >
-            Shop Sida
+            <img
+              src="/Logo_1.png"
+              alt="Shop Sida Logo"
+              className="h-max w-36 mr-2" 
+            />
           </Link>
           <div className="flex items-center space-x-6 text-black h-full">
             <Link
@@ -84,8 +90,7 @@ const AppHeader = () => {
         </div>
       </Header>
       {isMenuOpen && (
-        <div className="fixed font-medium mb-6 inset-0 z-50 flex">
-          {/* Menu Category - Chiếm 1/4 màn hình */}
+        <div className="fixed font-medium mb-6 inset-0 h-full z-50 flex">
           <div className="w-1/4 bg-white shadow-lg">
             <Menu
               className="my-12 mx-6"
@@ -96,30 +101,32 @@ const AppHeader = () => {
                   <Link
                     to={`/${category.name.toLowerCase()}`}
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-2xl my-12"
-                    onMouseEnter={() => setHoveredCategory(category)} // Cập nhật category khi hover
+                    className="text-2xl my-12 justify-between items-center w-full"
+                    onMouseEnter={() => setHoveredCategory(category)}  
                   >
                     {category.name}
+                    <RightOutlined className="ml-2" />
                   </Link>
                 ),
               }))}
-              style={{ backgroundColor: 'white', color: 'black', height: '90%' }}
+              style={{ backgroundColor: 'white', color: 'black', height: 'auto' }}
             />
           </div>
 
-          {/* ProductList - Hiển thị khi hover, chiếm 2/4 màn hình */}
           {hoveredCategory && (
-            <div className="w-2/4 bg-white shadow-lg">
-              <ProductList categoryId={hoveredCategory.name} />
+            <div className="w-2/4 mx-0 bg-white z-50 max-h-screen overflow-y-auto">
+              <SubCategoryList
+                parentCategoryId={hoveredCategory.id}
+                parentCategoryName={hoveredCategory.name}
+              />
             </div>
           )}
 
-          {/* Overlay để đóng menu và ProductList */}
           <div
             className="flex-1 bg-black bg-opacity-50 backdrop-blur-sm"
             onClick={() => {
-              setIsMenuOpen(false); // Đóng menu
-              setHoveredCategory(null); // Đóng ProductList
+              setIsMenuOpen(false); 
+              setHoveredCategory(null);
             }}
           />
         </div>
