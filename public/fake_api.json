@@ -5,7 +5,7 @@
     "name": "Áo thun nam",
     "code": "ATN001",
     "price": 200000,
-    "category": "T-Shirt"
+    "subcategory": "T-Shirt Nam"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "name": "Quần jeans slim fit",
     "code": "QJ002",
     "price": 350000,
-    "category": "Pants"
+    "subcategory": "Pants"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "name": "Quần jeans rách gối",
     "code": "QJ003",
     "price": 380000,
-    "category": "Pants"
+    "subcategory": "Pants"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "name": "Quần jeans đen",
     "code": "QJ004",
     "price": 400000,
-    "category": "Pants"
+    "subcategory": "Pants"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "name": "Quần jeans xanh nhạt",
     "code": "QJ005",
     "price": 370000,
-    "category": "Pants"
+    "subcategory": "Pants"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "name": "Áo hoodie xám",
     "code": "HD001",
     "price": 450000,
-    "category": "Hoodie"
+    "subcategory": "Hoodie Pullover"
   },
   {
     "id": 7,
@@ -53,7 +53,7 @@
     "name": "Áo hoodie đen",
     "code": "HD002",
     "price": 480000,
-    "category": "Hoodie"
+    "subcategory": "Hoodie Zipper"
   },
   {
     "id": 8,
@@ -61,7 +61,7 @@
     "name": "Áo thun nữ cổ tròn",
     "code": "ATN002",
     "price": 180000,
-    "category": "T-Shirt"
+    "subcategory": "T-Shirt Nữ"
   },
   {
     "id": 9,
@@ -69,7 +69,7 @@
     "name": "Áo thun nam in hình",
     "code": "ATN003",
     "price": 220000,
-    "category": "T-Shirt"
+    "subcategory": "T-Shirt Nam"
   },
   {
     "id": 10,
@@ -77,7 +77,7 @@
     "name": "Áo khoác gió",
     "code": "AKG001",
     "price": 550000,
-    "category": "Jacket"
+    "subcategory": "Jacket"
   },
   {
     "id": 11,
@@ -85,7 +85,7 @@
     "name": "Mũ lưỡi trai",
     "code": "MLT001",
     "price": 120000,
-    "category": "Hats"
+    "subcategory": "Baseball Cap"
   },
   {
     "id": 12,
@@ -93,7 +93,7 @@
     "name": "Tất thể thao",
     "code": "TTT001",
     "price": 50000,
-    "category": "Socks"
+    "subcategory": "Crew Socks"
   },
   {
     "id": 13,
@@ -101,7 +101,7 @@
     "name": "Ly sứ trắng",
     "code": "LS001",
     "price": 80000,
-    "category": "Mug"
+    "subcategory": "Mug Ceramic"
   },
   {
     "id": 14,
@@ -109,7 +109,7 @@
     "name": "Tranh canvas phong cảnh",
     "code": "CV001",
     "price": 300000,
-    "category": "Canvas"
+    "subcategory": "Canvas Wall Art"
   },
   {
     "id": 15,
@@ -117,7 +117,7 @@
     "name": "Áo sơ mi nam",
     "code": "ASM001",
     "price": 320000,
-    "category": "Shirt"
+    "subcategory": "Shirt"
   },
   {
     "id": 16,
@@ -125,7 +125,7 @@
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "category": "T-Shirt"
+    "subcategory": "T-Shirt Nữ"
   },
   {
     "id": 17,
@@ -133,7 +133,7 @@
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "category": "T-Shirt"
+    "subcategory": "T-Shirt Nữ"
   },
   {
     "id": 18,
@@ -141,7 +141,7 @@
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "category": "T-Shirt"
+    "subcategory": "T-Shirt Nữ"
   },
   {
     "id": 19,
@@ -149,6 +149,6 @@
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "category": "T-Shirt"
+    "subcategory": "T-Shirt Nữ"
   }
 ]

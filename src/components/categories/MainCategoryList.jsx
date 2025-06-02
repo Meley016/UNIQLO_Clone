@@ -37,7 +37,7 @@ const MainCategoryList = () => {
   if (categories.length === 0) {
     return (
       <div className="text-center my-12 text-gray-500 p-4">
-        Không có danh mục nào
+        Hiện chưa có sản phẩm
       </div>
     );
   }
