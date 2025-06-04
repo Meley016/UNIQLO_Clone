@@ -22,25 +22,29 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:7009/api/Account/login', {
-        email: values.email, // Sửa thành email để khớp với schema backend
-        password: values.password, // Sửa thành password để khớp với schema backend
+      const response = await axios.post('/api/Account/login', {
+        email: values.email, // Sửa thành email (khớp với backend schema)
+        password: values.password, // Sửa thành password (khớp với backend schema)
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      const { email, accessToken, expiresIn } = response.data; // Sửa tên trường để khớp với response backend
+      const { email, accessToken, expriesIn } = response.data; // Sửa expriesIn thành expiresIn
 
-      console.log('Đăng nhập thành công:', { email, accessToken, expiresIn });
+      console.log('Đăng nhập thành công:', { email, accessToken, expriesIn });
 
+      // Lưu token và email vào localStorage
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('userEmail', email);
-      localStorage.setItem('tokenExpiresIn', expiresIn);
+      localStorage.setItem('tokenexpriesInn', expriesIn);
 
       message.success('Đăng nhập thành công!');
       navigate('/');
+
+      // Phát sự kiện custom để thông báo cho UserMenu cập nhật trạng thái
+      window.dispatchEvent(new Event('loginStatusChanged'));
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
       message.error(errorMessage);

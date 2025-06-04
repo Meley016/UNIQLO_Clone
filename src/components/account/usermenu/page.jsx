@@ -7,13 +7,25 @@ const UserMenu = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  // Kiểm tra trạng thái đăng nhập khi component mount
-  useEffect(() => {
+  // Kiểm tra trạng thái đăng nhập
+  const checkLoginStatus = () => {
     const token = localStorage.getItem('accessToken');
-    setIsLoggedIn(!!token);
+    setIsLoggedIn(!!token); // Cập nhật trạng thái dựa trên token
+  };
+
+  // Kiểm tra
+  useEffect(() => {
+    checkLoginStatus(); 
+
+    window.addEventListener('loginStatusChanged', checkLoginStatus);
+    window.addEventListener('storage', checkLoginStatus); 
+
+    return () => {
+      window.removeEventListener('loginStatusChanged', checkLoginStatus);
+      window.removeEventListener('storage', checkLoginStatus);
+    };
   }, []);
 
-  // Xử lý đăng xuất
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userEmail');
@@ -21,9 +33,9 @@ const UserMenu = () => {
     setIsLoggedIn(false);
     message.success('Đăng xuất thành công!');
     navigate('/login');
+    window.dispatchEvent(new Event('loginStatusChanged'));
   };
 
-  // Menu thả xuống khi đã đăng nhập
   const userMenu = (
     <Menu>
       <Menu.Item key="profile">
@@ -47,7 +59,7 @@ const UserMenu = () => {
   return isLoggedIn ? (
     <Dropdown overlay={userMenu} trigger={['click']}>
       <button
-        className="hover:text-blue-600 p-2 rounded-full transition-colors duration-100 flex items-center"
+        className="hover:text-blue-600 p-2 rounded-full transition-colors duration-200 flex items-center"
         aria-label="Tài khoản"
       >
         <UserOutlined className="text-2xl" />
@@ -56,7 +68,7 @@ const UserMenu = () => {
   ) : (
     <button
       onClick={() => navigate('/login')}
-      className="hover:text-blue-600 p-2 rounded-full transition-colors duration-100 flex items-center"
+      className="hover:text-blue-600 p-2 rounded-full transition-colors duration-200 flex items-center"
       aria-label="Tài khoản"
     >
       <UserOutlined className="text-2xl" />
