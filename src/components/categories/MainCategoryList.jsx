@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CategoryCard from '../common/CategoryCard';
+import axios from 'axios';
 
 const MainCategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -10,12 +11,11 @@ const MainCategoryList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/subcategories.json');
-        if (!response.ok) {
+        const response = await axios.get('/subcategories.json');
+        if (!response.data) {
           throw new Error('Lỗi khi lấy dữ liệu danh mục');
         }
-        const data = await response.json();
-        setCategories(data);
+        setCategories(response.data);
         setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Đã xảy ra lỗi');
@@ -45,7 +45,7 @@ const MainCategoryList = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-xl font-bold mb-4 text-center">Danh mục sản phẩm</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
         {categories.map((category) => (
           <div key={category.parentCategoryId} className="px-2">
             <Link

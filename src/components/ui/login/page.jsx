@@ -23,15 +23,15 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const response = await axios.post('/api/Account/login', {
-        email: values.email, // Sửa thành email (khớp với backend schema)
-        password: values.password, // Sửa thành password (khớp với backend schema)
+        email: values.email, 
+        password: values.password, 
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      const { email, accessToken, expriesIn } = response.data; // Sửa expriesIn thành expiresIn
+      const { email, accessToken, expriesIn } = response.data; 
 
       console.log('Đăng nhập thành công:', { email, accessToken, expriesIn });
 
@@ -43,7 +43,7 @@ const LoginPage = () => {
       message.success('Đăng nhập thành công!');
       navigate('/');
 
-      // Phát sự kiện custom để thông báo cho UserMenu cập nhật trạng thái
+      // check LocalSto
       window.dispatchEvent(new Event('loginStatusChanged'));
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
@@ -62,7 +62,6 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="flex w-full max-w-4xl bg-white shadow-md rounded-lg overflow-hidden">
-        {/* Phần đăng nhập */}
         <div className="w-1/2 p-6">
           <h2 className="text-2xl font-bold mb-4">ĐĂNG NHẬP</h2>
           <p className="text-gray-600 mb-4">Đăng nhập bằng địa chỉ email và mật khẩu của bạn.</p>
@@ -122,7 +121,6 @@ const LoginPage = () => {
           </Form>
         </div>
 
-        {/* Phần tạo tài khoản */}
         <div className="w-1/2 bg-gray-50 p-6 flex flex-col justify-between">
           <div>
             <h2 className="text-2xl font-bold mb-4">TẠO MỘT TÀI KHOẢN</h2>

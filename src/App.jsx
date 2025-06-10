@@ -11,35 +11,41 @@ import RegisterPage from './components/ui/register/page';
 import RegisterLayout from './components/ui/register/layout';
 import SubCategoryList from './components/categories/SubCategoryList';
 import MainCategoryList from './components/categories/MainCategoryList';
+import ProductDetail from './components/products/productdetail/page';
 
 const App = () => {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <div className="fixed top-0 w-full z-10">
-        <AppHeader />
+          <AppHeader />
         </div>
-        <main >
+        <main className="pt-28 flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/:parentCategoryName" element={<SubCategoryList />} />
             <Route path="/:parentCategoryName/:subcategoryName" element={<ProductList />} />
-            <Route path="/login"
-            element={
-            <LoginLayout>
-              <LoginPage />
-            </LoginLayout>
-          }/>
-          <Route path="/register"
-            element={
-            <RegisterLayout>
-              <RegisterPage />
-            </RegisterLayout>
-          }/>
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route
+              path="/login"
+              element={
+                <LoginLayout>
+                  <LoginPage />
+                </LoginLayout>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <RegisterLayout>
+                  <RegisterPage />
+                </RegisterLayout>
+              }
+            />
           </Routes>
         </main>
+        <AppFooter />
       </div>
-      <AppFooter />
     </BrowserRouter>
   );
 };

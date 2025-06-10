@@ -1,154 +1,861 @@
 [
   {
     "id": 1,
-    "image": "image.png",
+    "image": "image1.png",
     "name": "Áo thun nam",
     "code": "ATN001",
     "price": 200000,
-    "subcategory": "T-Shirt Nam"
-  },
-  {
-    "id": 2,
-    "image": "image.png",
-    "name": "Quần jeans slim fit",
-    "code": "QJ002",
-    "price": 350000,
-    "subcategory": "Pants"
-  },
-  {
-    "id": 3,
-    "image": "image.png",
-    "name": "Quần jeans rách gối",
-    "code": "QJ003",
-    "price": 380000,
-    "subcategory": "Pants"
-  },
-  {
-    "id": 4,
-    "image": "image.png",
-    "name": "Quần jeans đen",
-    "code": "QJ004",
-    "price": 400000,
-    "subcategory": "Pants"
-  },
-  {
-    "id": 5,
-    "image": "image.png",
-    "name": "Quần jeans xanh nhạt",
-    "code": "QJ005",
-    "price": 370000,
-    "subcategory": "Pants"
-  },
-  {
-    "id": 6,
-    "image": "image.png",
-    "name": "Áo hoodie xám",
-    "code": "HD001",
-    "price": 450000,
-    "subcategory": "Hoodie Pullover"
-  },
-  {
-    "id": 7,
-    "image": "image.png",
-    "name": "Áo hoodie đen",
-    "code": "HD002",
-    "price": 480000,
-    "subcategory": "Hoodie Zipper"
-  },
-  {
-    "id": 8,
-    "image": "image.png",
-    "name": "Áo thun nữ cổ tròn",
-    "code": "ATN002",
-    "price": 180000,
-    "subcategory": "T-Shirt Nữ"
+    "subcategory": "T-Shirt Nam",
+    "colors": [
+      { "code": "COL00", "name": "Đen" },
+      { "code": "COL01", "name": "Trắng" },
+      { "code": "COL02", "name": "Xám" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế đơn giản, chất liệu cotton thoáng mát.",
+    "longDescription": "Áo thun nam được may từ 100% cotton cao cấp, mang lại cảm giác thoải mái và thoáng khí. Phù hợp với mọi hoạt động hàng ngày, từ đi làm đến dạo phố. Công nghệ may hiện đại đảm bảo độ bền và giữ form đẹp sau nhiều lần giặt."
   },
   {
     "id": 9,
-    "image": "image.png",
+    "image": "image9.png",
     "name": "Áo thun nam in hình",
     "code": "ATN003",
     "price": 220000,
-    "subcategory": "T-Shirt Nam"
+    "subcategory": "T-Shirt Nam",
+    "colors": [
+      { "code": "COL00", "name": "Đen" },
+      { "code": "COL12", "name": "Xanh navy" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế in hình độc đáo, nổi bật.",
+    "longDescription": "Áo thun nam in hình với họa tiết sáng tạo, được in bằng công nghệ tiên tiến. Chất liệu cotton thoáng khí, phù hợp cho giới trẻ năng động."
   },
   {
-    "id": 10,
-    "image": "image.png",
-    "name": "Áo khoác gió",
-    "code": "AKG001",
-    "price": 550000,
-    "subcategory": "Jacket"
+    "id": 20,
+    "image": "image20.png",
+    "name": "Áo thun nam cổ trụ",
+    "code": "ATN004",
+    "price": 230000,
+    "subcategory": "T-Shirt Nam",
+    "colors": [
+      { "code": "COL02", "name": "Xám" },
+      { "code": "COL01", "name": "Trắng" },
+      { "code": "COL22", "name": "Đỏ" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế cổ trụ thời trang, thoải mái.",
+    "longDescription": "Áo thun nam cổ trụ với chất liệu cotton mềm mại, mang phong cách hiện đại. Phù hợp cho các dịp đi chơi hoặc làm việc nhẹ nhàng."
   },
   {
-    "id": 11,
-    "image": "image.png",
-    "name": "Mũ lưỡi trai",
-    "code": "MLT001",
-    "price": 120000,
-    "subcategory": "Baseball Cap"
+    "id": 21,
+    "image": "image21.png",
+    "name": "Áo thun nam dài tay",
+    "code": "ATN005",
+    "price": 250000,
+    "subcategory": "T-Shirt Nam",
+    "colors": [
+      { "code": "COL00", "name": "Đen" },
+      { "code": "COL12", "name": "Xanh navy" },
+      { "code": "COL23", "name": "Xanh lá" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế dài tay, giữ ấm nhẹ.",
+    "longDescription": "Áo thun nam dài tay với chất liệu cotton pha, phù hợp cho thời tiết mát mẻ. Thiết kế đơn giản, dễ phối đồ."
   },
   {
-    "id": 12,
-    "image": "image.png",
-    "name": "Tất thể thao",
-    "code": "TTT001",
-    "price": 50000,
-    "subcategory": "Crew Socks"
+    "id": 2,
+    "image": "image2.png",
+    "name": "Quần jeans slim fit",
+    "code": "QJ002",
+    "price": 350000,
+    "subcategory": "Pants",
+    "colors": [
+      { "code": "COL03", "name": "Xanh đậm" },
+      { "code": "COL04", "name": "Xanh nhạt" },
+      { "code": "COL05", "name": "Đen" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế slim fit, ôm vừa vặn cơ thể.",
+    "longDescription": "Quần jeans slim fit được làm từ vải denim cao cấp, co giãn nhẹ, mang lại phong cách hiện đại và thoải mái. Sản phẩm được xử lý bằng kỹ thuật đặc biệt để tăng độ bền màu và phù hợp với nhiều dịp."
   },
   {
-    "id": 13,
-    "image": "image.png",
-    "name": "Ly sứ trắng",
-    "code": "LS001",
-    "price": 80000,
-    "subcategory": "Mug Ceramic"
+    "id": 3,
+    "image": "image3.png",
+    "name": "Quần jeans rách gối",
+    "code": "QJ003",
+    "price": 380000,
+    "subcategory": "Pants",
+    "colors": [
+      { "code": "COL03", "name": "Xanh đậm" },
+      { "code": "COL06", "name": "Xanh rách" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Phong cách cá tính với thiết kế rách gối.",
+    "longDescription": "Quần jeans rách gối kết hợp giữa phong cách đường phố và sự thoải mái. Vải denim dày dặn, xử lý rách thủ công, tạo điểm nhấn độc đáo cho trang phục của bạn."
   },
   {
-    "id": 14,
-    "image": "image.png",
-    "name": "Tranh canvas phong cảnh",
-    "code": "CV001",
-    "price": 300000,
-    "subcategory": "Canvas Wall Art"
+    "id": 4,
+    "image": "image4.png",
+    "name": "Quần jeans đen",
+    "code": "QJ004",
+    "price": 400000,
+    "subcategory": "Pants",
+    "colors": [
+      { "code": "COL05", "name": "Đen" },
+      { "code": "COL07", "name": "Xám đen" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Màu đen sang trọng, dễ phối đồ.",
+    "longDescription": "Quần jeans đen được thiết kế với vải denim chất lượng cao, mang lại vẻ ngoài lịch lãm. Phù hợp với nhiều phong cách, từ công sở đến dạo chơi cuối tuần."
   },
   {
-    "id": 15,
-    "image": "image.png",
-    "name": "Áo sơ mi nam",
-    "code": "ASM001",
-    "price": 320000,
-    "subcategory": "Shirt"
+    "id": 5,
+    "image": "image5.png",
+    "name": "Quần jeans xanh nhạt",
+    "code": "QJ005",
+    "price": 370000,
+    "subcategory": "Pants",
+    "colors": [
+      { "code": "COL04", "name": "Xanh nhạt" },
+      { "code": "COL08", "name": "Xanh pastel" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế nhẹ nhàng, màu sắc tươi mới.",
+    "longDescription": "Quần jeans xanh nhạt mang phong cách trẻ trung, phù hợp với mùa hè. Vải co giãn nhẹ, dễ dàng kết hợp với áo thun hoặc áo sơ mi."
+  },
+  {
+    "id": 6,
+    "image": "image6.png",
+    "name": "Áo hoodie xám",
+    "code": "HD001",
+    "price": 450000,
+    "subcategory": "Hoodie Pullover",
+    "colors": [
+      { "code": "COL02", "name": "Xám" },
+      { "code": "COL09", "name": "Xám nhạt" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế ấm áp, phong cách streetwear.",
+    "longDescription": "Áo hoodie xám được may từ vải fleece mềm mại, giữ ấm tốt trong mùa đông. Thiết kế pullover đơn giản, dễ phối đồ với quần jeans hoặc quần jogger."
+  },
+  {
+    "id": 22,
+    "image": "image22.png",
+    "name": "Áo hoodie xanh",
+    "code": "HD003",
+    "price": 460000,
+    "subcategory": "Hoodie Pullover",
+    "colors": [
+      { "code": "COL23", "name": "Xanh lá" },
+      { "code": "COL24", "name": "Xanh dương" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế năng động, màu sắc tươi sáng.",
+    "longDescription": "Áo hoodie xanh với chất liệu fleece ấm áp, phù hợp cho mùa đông. Thiết kế pullover đơn giản, dễ dàng phối với quần jeans."
+  },
+  {
+    "id": 23,
+    "image": "image23.png",
+    "name": "Áo hoodie đỏ",
+    "code": "HD004",
+    "price": 470000,
+    "subcategory": "Hoodie Pullover",
+    "colors": [
+      { "code": "COL22", "name": "Đỏ" },
+      { "code": "COL25", "name": "Đỏ đậm" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Màu đỏ nổi bật, phong cách trẻ trung.",
+    "longDescription": "Áo hoodie đỏ được làm từ vải fleece chất lượng, giữ ấm tốt. Thiết kế pullover phù hợp cho các hoạt động ngoài trời."
+  },
+  {
+    "id": 24,
+    "image": "image24.png",
+    "name": "Áo hoodie nâu",
+    "code": "HD005",
+    "price": 480000,
+    "subcategory": "Hoodie Pullover",
+    "colors": [
+      { "code": "COL26", "name": "Nâu" },
+      { "code": "COL27", "name": "Nâu nhạt" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế ấm áp, màu sắc tự nhiên.",
+    "longDescription": "Áo hoodie nâu với chất liệu fleece mềm mại, phù hợp cho mùa đông lạnh. Thiết kế pullover đơn giản, dễ phối đồ."
+  },
+  {
+    "id": 7,
+    "image": "image7.png",
+    "name": "Áo hoodie đen",
+    "code": "HD002",
+    "price": 480000,
+    "subcategory": "Hoodie Zipper",
+    "colors": [
+      { "code": "COL00", "name": "Đen" },
+      { "code": "COL10", "name": "Đen nhám" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế zipper hiện đại, dễ sử dụng.",
+    "longDescription": "Áo hoodie đen với khóa kéo tiện lợi, phù hợp cho cả nam và nữ. Vải cotton pha polyester, mang lại độ bền và cảm giác thoải mái."
+  },
+  {
+    "id": 25,
+    "image": "image25.png",
+    "name": "Áo hoodie zipper xám",
+    "code": "HD006",
+    "price": 490000,
+    "subcategory": "Hoodie Zipper",
+    "colors": [
+      { "code": "COL02", "name": "Xám" },
+      { "code": "COL09", "name": "Xám nhạt" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế zipper phong cách, giữ ấm tốt.",
+    "longDescription": "Áo hoodie zipper xám với chất liệu fleece, phù hợp cho mùa đông. Khóa kéo tiện lợi, dễ phối đồ với quần jeans."
+  },
+  {
+    "id": 26,
+    "image": "image26.png",
+    "name": "Áo hoodie zipper xanh",
+    "code": "HD007",
+    "price": 500000,
+    "subcategory": "Hoodie Zipper",
+    "colors": [
+      { "code": "COL23", "name": "Xanh lá" },
+      { "code": "COL24", "name": "Xanh dương" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Màu xanh tươi sáng, thiết kế hiện đại.",
+    "longDescription": "Áo hoodie zipper xanh với chất liệu cotton pha, giữ ấm và thoáng khí. Phù hợp cho các hoạt động ngoài trời."
+  },
+  {
+    "id": 27,
+    "image": "image27.png",
+    "name": "Áo hoodie zipper đỏ",
+    "code": "HD008",
+    "price": 510000,
+    "subcategory": "Hoodie Zipper",
+    "colors": [
+      { "code": "COL22", "name": "Đỏ" },
+      { "code": "COL25", "name": "Đỏ đậm" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế zipper nổi bật, phong cách trẻ trung.",
+    "longDescription": "Áo hoodie zipper đỏ với chất liệu fleece cao cấp, giữ ấm tốt. Phù hợp cho các buổi dạo chơi hoặc tụ tập bạn bè."
+  },
+  {
+    "id": 8,
+    "image": "image8.png",
+    "name": "Áo thun nữ cổ tròn",
+    "code": "ATN002",
+    "price": 180000,
+    "subcategory": "T-Shirt Nữ",
+    "colors": [
+      { "code": "COL01", "name": "Trắng" },
+      { "code": "COL11", "name": "Hồng phấn" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế thanh lịch, phù hợp với nữ giới.",
+    "longDescription": "Áo thun nữ cổ tròn được làm từ cotton mềm mại, tôn dáng và phù hợp với nhiều dịp. Thiết kế tối giản, dễ phối cùng quần jeans hoặc chân váy."
   },
   {
     "id": 16,
-    "image": "image.png",
+    "image": "image16.png",
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "subcategory": "T-Shirt Nữ"
+    "subcategory": "T-Shirt Nữ",
+    "colors": [
+      { "code": "COL11", "name": "Hồng phấn" },
+      { "code": "COL21", "name": "Xanh pastel" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế nhẹ nhàng, tôn dáng nữ giới.",
+    "longDescription": "Áo thun nữ Yamate với chất liệu cotton mềm mại, mang phong cách Nhật Bản. Phù hợp với váy hoặc quần jeans cho phong cách trẻ trung."
   },
   {
     "id": 17,
-    "image": "image.png",
+    "image": "image17.png",
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "subcategory": "T-Shirt Nữ"
+    "subcategory": "T-Shirt Nữ",
+    "colors": [
+      { "code": "COL11", "name": "Hồng phấn" },
+      { "code": "COL21", "name": "Xanh pastel" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế nhẹ nhàng, tôn dáng nữ giới.",
+    "longDescription": "Áo thun nữ Yamate với chất liệu cotton mềm mại, mang phong cách Nhật Bản. Phù hợp với váy hoặc quần jeans cho phong cách trẻ trung."
   },
   {
     "id": 18,
-    "image": "image.png",
+    "image": "image18.png",
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "subcategory": "T-Shirt Nữ"
+    "subcategory": "T-Shirt Nữ",
+    "colors": [
+      { "code": "COL11", "name": "Hồng phấn" },
+      { "code": "COL21", "name": "Xanh pastel" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế nhẹ nhàng, tôn dáng nữ giới.",
+    "longDescription": "Áo thun nữ Yamate với chất liệu cotton mềm mại, mang phong cách Nhật Bản. Phù hợp với váy hoặc quần jeans cho phong cách trẻ trung."
   },
   {
     "id": 19,
-    "image": "image.png",
+    "image": "image19.png",
     "name": "Áo thun nữ Yamate",
     "code": "ATN002",
     "price": 180000,
-    "subcategory": "T-Shirt Nữ"
-  }
+    "subcategory": "T-Shirt Nữ",
+    "colors": [
+      { "code": "COL11", "name": "Hồng phấn" },
+      { "code": "COL21", "name": "Xanh pastel" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế nhẹ nhàng, tôn dáng nữ giới.",
+    "longDescription": "Áo thun nữ Yamate với chất liệu cotton mềm mại, mang phong cách Nhật Bản. Phù hợp với váy hoặc quần jeans cho phong cách trẻ trung."
+  },
+  {
+    "id": 10,
+    "image": "image10.png",
+    "name": "Áo khoác gió",
+    "code": "AKG001",
+    "price": 550000,
+    "subcategory": "Jacket",
+    "colors": [
+      { "code": "COL13", "name": "Xanh lá" },
+      { "code": "COL14", "name": "Đỏ" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Chống gió, bảo vệ tốt trong ngày mưa.",
+    "longDescription": "Áo khoác gió được làm từ vải chống thấm nước, nhẹ nhàng và dễ mang theo. Phù hợp cho các hoạt động ngoài trời như đi bộ hoặc du lịch."
+  },
+  {
+    "id": 28,
+    "image": "image28.png",
+    "name": "Áo khoác bomber",
+    "code": "AKG002",
+    "price": 600000,
+    "subcategory": "Jacket",
+    "colors": [
+      { "code": "COL00", "name": "Đen" },
+      { "code": "COL15", "name": "Xanh dương" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế bomber thời thượng, ấm áp.",
+    "longDescription": "Áo khoác bomber với chất liệu lót lông, giữ ấm tốt trong mùa đông. Phù hợp cho phong cách đường phố hoặc dạo chơi."
+  },
+  {
+    "id": 29,
+    "image": "image29.png",
+    "name": "Áo khoác da",
+    "code": "AKG003",
+    "price": 750000,
+    "subcategory": "Jacket",
+    "colors": [
+      { "code": "COL05", "name": "Đen" },
+      { "code": "COL26", "name": "Nâu" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Phong cách mạnh mẽ, chất liệu da cao cấp.",
+    "longDescription": "Áo khoác da với chất liệu da tổng hợp cao cấp, mang lại vẻ ngoài mạnh mẽ. Phù hợp với các dịp đặc biệt hoặc phong cách bụi bặm."
+  },
+  {
+    "id": 30,
+    "image": "image30.png",
+    "name": "Áo khoác phao",
+    "code": "AKG004",
+    "price": 650000,
+    "subcategory": "Jacket",
+    "colors": [
+      { "code": "COL09", "name": "Xám nhạt" },
+      { "code": "COL21", "name": "Xanh pastel" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Giúp giữ ấm tối đa trong mùa đông.",
+    "longDescription": "Áo khoác phao với lớp lót bông dày, chống gió và giữ ấm hiệu quả. Phù hợp cho các chuyến đi xa hoặc thời tiết lạnh giá."
+  },
+  {
+    "id": 11,
+    "image": "image11.png",
+    "name": "Mũ lưỡi trai",
+    "code": "MLT001",
+    "price": 120000,
+    "subcategory": "Baseball Cap",
+    "colors": [
+      { "code": "COL00", "name": "Đen" },
+      { "code": "COL01", "name": "Trắng" }
+    ],
+    "sizes": [
+      { "code": "SMA008", "name": "One Size" }
+    ],
+    "shortDescription": "Thiết kế cổ điển, bảo vệ khỏi nắng.",
+    "longDescription": "Mũ lưỡi trai với chất liệu cotton cao cấp, giúp bảo vệ đầu và mặt khỏi tia UV. Thiết kế đơn giản, phù hợp với mọi lứa tuổi."
+  },
+  {
+    "id": 31,
+    "image": "image31.png",
+    "name": "Mũ lưỡi trai đỏ",
+    "code": "MLT002",
+    "price": 130000,
+    "subcategory": "Baseball Cap",
+    "colors": [
+      { "code": "COL22", "name": "Đỏ" },
+      { "code": "COL25", "name": "Đỏ đậm" }
+    ],
+    "sizes": [
+      { "code": "SMA008", "name": "One Size" }
+    ],
+    "shortDescription": "Màu đỏ nổi bật, phong cách trẻ trung.",
+    "longDescription": "Mũ lưỡi trai đỏ với chất liệu cotton thoáng khí, phù hợp cho các hoạt động ngoài trời. Thiết kế hiện đại, dễ phối đồ."
+  },
+  {
+    "id": 32,
+    "image": "image32.png",
+    "name": "Mũ lưỡi trai xanh",
+    "code": "MLT003",
+    "price": 125000,
+    "subcategory": "Baseball Cap",
+    "colors": [
+      { "code": "COL23", "name": "Xanh lá" },
+      { "code": "COL24", "name": "Xanh dương" }
+    ],
+    "sizes": [
+      { "code": "SMA008", "name": "One Size" }
+    ],
+    "shortDescription": "Màu xanh tươi mới, bảo vệ nắng tốt.",
+    "longDescription": "Mũ lưỡi trai xanh với chất liệu cotton cao cấp, chống tia UV hiệu quả. Phù hợp cho các buổi dạo chơi hoặc thể thao."
+  },
+  {
+    "id": 33,
+    "image": "image33.png",
+    "name": "Mũ lưỡi trai xám",
+    "code": "MLT004",
+    "price": 135000,
+    "subcategory": "Baseball Cap",
+    "colors": [
+      { "code": "COL02", "name": "Xám" },
+      { "code": "COL09", "name": "Xám nhạt" }
+    ],
+    "sizes": [
+      { "code": "SMA008", "name": "One Size" }
+    ],
+    "shortDescription": "Thiết kế xám trung tính, đa dụng.",
+    "longDescription": "Mũ lưỡi trai xám với chất liệu cotton mềm mại, phù hợp với nhiều phong cách. Bảo vệ khỏi nắng và dễ phối đồ hàng ngày."
+  },
+  {
+    "id": 12,
+    "image": "image12.png",
+    "name": "Tất thể thao",
+    "code": "TTT001",
+    "price": 50000,
+    "subcategory": "Crew Socks",
+    "colors": [
+      { "code": "COL15", "name": "Xanh dương" },
+      { "code": "COL16", "name": "Đen" }
+    ],
+    "sizes": [
+      { "code": "SMA009", "name": "S/M" },
+      { "code": "SMA010", "name": "L/XL" }
+    ],
+    "shortDescription": "Hỗ trợ tốt cho hoạt động thể thao.",
+    "longDescription": "Tất thể thao được làm từ sợi tổng hợp co giãn, thấm hút mồ hôi hiệu quả. Phù hợp cho chạy bộ, gym hoặc các môn thể thao khác."
+  },
+  {
+    "id": 34,
+    "image": "image34.png",
+    "name": "Tất thể thao đen",
+    "code": "TTT002",
+    "price": 55000,
+    "subcategory": "Crew Socks",
+    "colors": [
+      { "code": "COL16", "name": "Đen" },
+      { "code": "COL00", "name": "Đen nhám" }
+    ],
+    "sizes": [
+      { "code": "SMA009", "name": "S/M" },
+      { "code": "SMA010", "name": "L/XL" }
+    ],
+    "shortDescription": "Màu đen cổ điển, hỗ trợ thể thao.",
+    "longDescription": "Tất thể thao đen với chất liệu co giãn, thấm hút mồ hôi tốt. Phù hợp cho các bài tập cường độ cao."
+  },
+  {
+    "id": 35,
+    "image": "image35.png",
+    "name": "Tất thể thao xám",
+    "code": "TTT003",
+    "price": 52000,
+    "subcategory": "Crew Socks",
+    "colors": [
+      { "code": "COL02", "name": "Xám" },
+      { "code": "COL09", "name": "Xám nhạt" }
+    ],
+    "sizes": [
+      { "code": "SMA009", "name": "S/M" },
+      { "code": "SMA010", "name": "L/XL" }
+    ],
+    "shortDescription": "Thiết kế xám nhẹ, thoải mái khi vận động.",
+    "longDescription": "Tất thể thao xám với chất liệu sợi tổng hợp, hỗ trợ tốt cho các hoạt động thể thao như chạy bộ hoặc gym."
+  },
+  {
+    "id": 36,
+    "image": "image36.png",
+    "name": "Tất thể thao trắng",
+    "code": "TTT004",
+    "price": 53000,
+    "subcategory": "Crew Socks",
+    "colors": [
+      { "code": "COL01", "name": "Trắng" },
+      { "code": "COL11", "name": "Hồng phấn" }
+    ],
+    "sizes": [
+      { "code": "SMA009", "name": "S/M" },
+      { "code": "SMA010", "name": "L/XL" }
+    ],
+    "shortDescription": "Màu trắng tinh tế, hỗ trợ vận động.",
+    "longDescription": "Tất thể thao trắng với chất liệu co giãn, thấm hút mồ hôi hiệu quả. Phù hợp cho các buổi tập luyện hoặc đi bộ."
+  },
+  {
+    "id": 13,
+    "image": "image13.png",
+    "name": "Ly sứ trắng",
+    "code": "LS001",
+    "price": 80000,
+    "subcategory": "Mug Ceramic",
+    "colors": [
+      { "code": "COL01", "name": "Trắng" },
+      { "code": "COL17", "name": "Be" }
+    ],
+    "sizes": [
+      { "code": "SMA011", "name": "300ml" },
+      { "code": "SMA012", "name": "400ml" }
+    ],
+    "shortDescription": "Thiết kế tinh tế, giữ nhiệt tốt.",
+    "longDescription": "Ly sứ trắng được nung ở nhiệt độ cao, giữ nhiệt và chống nứt vỡ. Phù hợp làm quà tặng hoặc sử dụng hàng ngày với trà hoặc cà phê."
+  },
+  {
+    "id": 37,
+    "image": "image37.png",
+    "name": "Ly sứ đen",
+    "code": "LS002",
+    "price": 85000,
+    "subcategory": "Mug Ceramic",
+    "colors": [
+      { "code": "COL00", "name": "Đen" },
+      { "code": "COL10", "name": "Đen nhám" }
+    ],
+    "sizes": [
+      { "code": "SMA011", "name": "300ml" },
+      { "code": "SMA012", "name": "400ml" }
+    ],
+    "shortDescription": "Màu đen sang trọng, giữ nhiệt tốt.",
+    "longDescription": "Ly sứ đen với thiết kế hiện đại, giữ nhiệt hiệu quả. Phù hợp làm quà tặng hoặc sử dụng trong văn phòng."
+  },
+  {
+    "id": 38,
+    "image": "image38.png",
+    "name": "Ly sứ xanh",
+    "code": "LS003",
+    "price": 82000,
+    "subcategory": "Mug Ceramic",
+    "colors": [
+      { "code": "COL23", "name": "Xanh lá" },
+      { "code": "COL24", "name": "Xanh dương" }
+    ],
+    "sizes": [
+      { "code": "SMA011", "name": "300ml" },
+      { "code": "SMA012", "name": "400ml" }
+    ],
+    "shortDescription": "Màu xanh tươi mới, thiết kế tinh tế.",
+    "longDescription": "Ly sứ xanh với chất liệu sứ cao cấp, giữ nhiệt tốt. Phù hợp cho các buổi uống trà hoặc cà phê hàng ngày."
+  },
+  {
+    "id": 39,
+    "image": "image39.png",
+    "name": "Ly sứ hồng",
+    "code": "LS004",
+    "price": 83000,
+    "subcategory": "Mug Ceramic",
+    "colors": [
+      { "code": "COL11", "name": "Hồng phấn" },
+      { "code": "COL21", "name": "Xanh pastel" }
+    ],
+    "sizes": [
+      { "code": "SMA011", "name": "300ml" },
+      { "code": "SMA012", "name": "400ml" }
+    ],
+    "shortDescription": "Màu hồng nhẹ nhàng, trang trí đẹp mắt.",
+    "longDescription": "Ly sứ hồng với thiết kế tinh xảo, phù hợp làm quà tặng hoặc sử dụng trong gia đình."
+  },
+  {
+    "id": 14,
+    "image": "image14.png",
+    "name": "Tranh canvas phong cảnh",
+    "code": "CV001",
+    "price": 300000,
+    "subcategory": "Canvas Wall Art",
+    "colors": [
+      { "code": "COL18", "name": "Đa sắc" }
+    ],
+    "sizes": [
+      { "code": "SMA013", "name": "40x60cm" },
+      { "code": "SMA014", "name": "50x70cm" }
+    ],
+    "shortDescription": "Trang trí nội thất sang trọng.",
+    "longDescription": "Tranh canvas phong cảnh in kỹ thuật số chất lượng cao, được căng trên khung gỗ chắc chắn. Phù hợp treo trong phòng khách hoặc văn phòng."
+  },
+  {
+    "id": 40,
+    "image": "image40.png",
+    "name": "Tranh canvas trừu tượng",
+    "code": "CV002",
+    "price": 320000,
+    "subcategory": "Canvas Wall Art",
+    "colors": [
+      { "code": "COL18", "name": "Đa sắc" },
+      { "code": "COL26", "name": "Nâu" }
+    ],
+    "sizes": [
+      { "code": "SMA013", "name": "40x60cm" },
+      { "code": "SMA014", "name": "50x70cm" }
+    ],
+    "shortDescription": "Thiết kế trừu tượng, nghệ thuật độc đáo.",
+    "longDescription": "Tranh canvas trừu tượng với màu sắc đa dạng, tạo điểm nhấn cho không gian sống. Phù hợp treo trong phòng ngủ hoặc văn phòng sáng tạo."
+  },
+  {
+    "id": 41,
+    "image": "image41.png",
+    "name": "Tranh canvas biển",
+    "code": "CV003",
+    "price": 310000,
+    "subcategory": "Canvas Wall Art",
+    "colors": [
+      { "code": "COL24", "name": "Xanh dương" },
+      { "code": "COL18", "name": "Đa sắc" }
+    ],
+    "sizes": [
+      { "code": "SMA013", "name": "40x60cm" },
+      { "code": "SMA014", "name": "50x70cm" }
+    ],
+    "shortDescription": "Hình ảnh biển cả, mang lại cảm giác thư giãn.",
+    "longDescription": "Tranh canvas biển với chất lượng in cao, căng trên khung gỗ chắc chắn. Phù hợp trang trí phòng khách hoặc không gian nghỉ ngơi."
+  },
+  {
+    "id": 42,
+    "image": "image42.png",
+    "name": "Tranh canvas hoa",
+    "code": "CV004",
+    "price": 330000,
+    "subcategory": "Canvas Wall Art",
+    "colors": [
+      { "code": "COL11", "name": "Hồng phấn" },
+      { "code": "COL18", "name": "Đa sắc" }
+    ],
+    "sizes": [
+      { "code": "SMA013", "name": "40x60cm" },
+      { "code": "SMA014", "name": "50x70cm" }
+    ],
+    "shortDescription": "Hình hoa đẹp mắt, tăng tính thẩm mỹ.",
+    "longDescription": "Tranh canvas hoa với thiết kế tinh tế, phù hợp làm điểm nhấn cho không gian sống. Chất liệu bền đẹp, dễ bảo quản."
+  },
+  {
+    "id": 15,
+    "image": "image15.png",
+    "name": "Áo sơ mi nam",
+    "code": "ASM001",
+    "price": 320000,
+    "subcategory": "Shirt",
+    "colors": [
+      { "code": "COL19", "name": "Trắng" },
+      { "code": "COL20", "name": "Xanh nhạt" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế lịch lãm, phù hợp công sở.",
+    "longDescription": "Áo sơ mi nam may từ vải cotton pha, thoáng mát và dễ ủi. Thiết kế cổ bẻ hiện đại, phù hợp với vest hoặc quần tây."
+  },
+  {
+    "id": 43,
+    "image": "image43.png",
+    "name": "Áo sơ mi sọc",
+    "code": "ASM002",
+    "price": 340000,
+    "subcategory": "Shirt",
+    "colors": [
+      { "code": "COL20", "name": "Xanh nhạt" },
+      { "code": "COL19", "name": "Trắng" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Thiết kế sọc tinh tế, phong cách công sở.",
+    "longDescription": "Áo sơ mi sọc với chất liệu cotton pha, mang lại sự thoải mái và lịch lãm. Phù hợp với quần tây hoặc vest."
+  },
+  {
+    "id": 44,
+    "image": "image44.png",
+    "name": "Áo sơ mi caro",
+    "code": "ASM003",
+    "price": 360000,
+    "subcategory": "Shirt",
+    "colors": [
+      { "code": "COL26", "name": "Nâu" },
+      { "code": "COL23", "name": "Xanh lá" }
+    ],
+    "sizes": [
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" },
+      { "code": "SMA007", "name": "XL" }
+    ],
+    "shortDescription": "Thiết kế caro độc đáo, phù hợp dạo chơi.",
+    "longDescription": "Áo sơ mi caro với chất liệu cotton thoáng khí, phù hợp cho các dịp đi chơi hoặc gặp gỡ bạn bè."
+  },
+  {
+    "id": 45,
+    "image": "image45.png",
+    "name": "Áo sơ mi xanh navy",
+    "code": "ASM004",
+    "price": 330000,
+    "subcategory": "Shirt",
+    "colors": [
+      { "code": "COL12", "name": "Xanh navy" },
+      { "code": "COL00", "name": "Đen" }
+    ],
+    "sizes": [
+      { "code": "SMA004", "name": "S" },
+      { "code": "SMA005", "name": "M" },
+      { "code": "SMA006", "name": "L" }
+    ],
+    "shortDescription": "Màu xanh navy lịch lãm, dễ phối đồ.",
+    "longDescription": "Áo sơ mi xanh navy với chất liệu cotton pha, phù hợp cho công sở hoặc các sự kiện trang trọng."
+  },
+  {
+  "id": 46,
+  "image": "image46.png",
+  "name": "Áo Sweatshirt Crewneck Over",
+  "code": "SWC001",
+  "price": 400000,
+  "subcategory": "Sweatshirt Crewneck",
+  "colors": [
+    { "code": "COL02", "name": "Xám" },
+    { "code": "COL09", "name": "Xám nhạt" }
+  ],
+  "sizes": [
+    { "code": "SMA005", "name": "M" },
+    { "code": "SMA006", "name": "L" },
+    { "code": "SMA007", "name": "XL" }
+  ],
+  "shortDescription": "Thiết kế crewneck ấm áp, phong cách.",
+  "longDescription": "Áo sweatshirt crewneck với chất liệu fleece mềm mại, giữ ấm tốt. Phù hợp cho mùa đông và dễ phối đồ."
+}
 ]

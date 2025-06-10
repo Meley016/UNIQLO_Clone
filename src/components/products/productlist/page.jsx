@@ -10,14 +10,26 @@ const ProductList = ({ subcategoryName }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Hàm chuẩn hóa chuỗi
+  const normalizeString = (str) => {
+    return str
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, ' ') // Loại bỏ khoảng trắng thừa
+      .replace(/-/g, ' '); // Thay dấu gạch ngang bằng khoảng trắng
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('/fake_api.json');
-        const subcategoryNameFormatted = currentSubcategoryName.replace(/-/g, ' ');
-        const filteredProducts = response.data.filter(
-          (product) => product.subcategory.toLowerCase() === subcategoryNameFormatted.toLowerCase()
-        );
+        const subcategoryNameFormatted = normalizeString(currentSubcategoryName);
+        console.log('Current Subcategory:', currentSubcategoryName, 'Normalized:', subcategoryNameFormatted); // Debug
+        const filteredProducts = response.data.filter((product) => {
+          const normalizedSubcategory = normalizeString(product.subcategory);
+          console.log('Product Subcategory:', product.subcategory, 'Normalized:', normalizedSubcategory); // Debug
+          return normalizedSubcategory === subcategoryNameFormatted;
+        });
         setProducts(filteredProducts);
         setLoading(false);
       } catch (err) {
@@ -47,7 +59,7 @@ const ProductList = ({ subcategoryName }) => {
 
   return (
     <div className="container mx-auto px-4 z-50 py-8">
-      <h2 className="text-xl font-bold mb-4">Sản phẩm {currentSubcategoryName.replace(/-/g, ' ')}</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">Sản phẩm {currentSubcategoryName.replace(/-/g, ' ')}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
         {products.map((product) => (
           <div key={product.id} className="px-2">
