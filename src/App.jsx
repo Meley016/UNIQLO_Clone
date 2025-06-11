@@ -21,7 +21,7 @@ const App = () => {
           <AppHeader />
         </div>
         <main className="pt-28 flex-1">
-          <Routes>
+          <Routes> 
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<Homeprofile />} />
             <Route path="/:parentCategoryName" element={<SubCategoryList />} />
