@@ -52,9 +52,32 @@ const ProductDetail = () => {
     navigate(`/product/${id}?colorCode=${selectedColor}&sizeCode=${sizeCode}`);
   };
 
-  const handleAddToCart = () => {
-    alert(`Đã thêm sản phẩm ${product.name} (Màu: ${product.colors.find(c => c.code === selectedColor)?.name || selectedColor}, Kích cỡ: ${product.sizes.find(s => s.code === selectedSize)?.name || selectedSize}) vào giỏ hàng!`);
-  };
+ // ...existing code...
+const handleAddToCart = () => {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const existingIndex = cart.findIndex(
+    item =>
+      item.id === product.id &&
+      item.selectedColor === selectedColor &&
+      item.selectedSize === selectedSize
+  );
+  if (existingIndex !== -1) {
+    cart[existingIndex].quantity += 1;
+  } else {
+    // Nếu chưa có thì thêm mới
+    cart.push({
+      id: product.id,
+      name: product.name,
+      image: product.image,
+      price: product.price,
+      selectedColor,
+      selectedSize,
+      quantity: 1,
+    });
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert('Đã thêm vào giỏ hàng!');
+};
 
   if (loading) {
     return <div className="text-center text-gray-500 p-4">Đang tải...</div>;
