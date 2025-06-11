@@ -23,7 +23,7 @@ const App = () => {
         <main className="pt-28 flex-1">
           <Routes> 
             <Route path="/" element={<HomePage />} />
-            <Route path="/profile" element={<Homeprofile />} />
+            <Route path="/profile" element={<Homeprofile />} /> 
             <Route path="/:parentCategoryName" element={<SubCategoryList />} />
             <Route path="/:parentCategoryName/:subcategoryName" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
