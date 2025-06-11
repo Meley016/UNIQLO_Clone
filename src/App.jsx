@@ -12,7 +12,7 @@ import RegisterLayout from './components/ui/register/layout';
 import SubCategoryList from './components/categories/SubCategoryList';
 import MainCategoryList from './components/categories/MainCategoryList';
 import ProductDetail from './components/products/productdetail/page';
-import CartPage from './components/account/cart/cart';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -21,8 +21,9 @@ const App = () => {
           <AppHeader />
         </div>
         <main className="pt-28 flex-1">
-          <Routes>
+          <Routes> 
             <Route path="/" element={<HomePage />} />
+            <Route path="/profile" element={<Homeprofile />} /> 
             <Route path="/:parentCategoryName" element={<SubCategoryList />} />
             <Route path="/:parentCategoryName/:subcategoryName" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
