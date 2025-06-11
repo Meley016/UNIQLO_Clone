@@ -12,7 +12,7 @@ import RegisterLayout from './components/ui/register/layout';
 import SubCategoryList from './components/categories/SubCategoryList';
 import MainCategoryList from './components/categories/MainCategoryList';
 import ProductDetail from './components/products/productdetail/page';
-
+import CartPage from './components/account/cart/cart';
 const App = () => {
   return (
     <BrowserRouter>
@@ -26,6 +26,7 @@ const App = () => {
             <Route path="/:parentCategoryName" element={<SubCategoryList />} />
             <Route path="/:parentCategoryName/:subcategoryName" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route
               path="/login"
               element={
