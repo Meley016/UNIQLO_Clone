@@ -20,7 +20,7 @@ const App = () => {
         <div className="fixed top-0 w-full z-10">
           <AppHeader />
         </div>
-        <main className="pt-28 flex-1">
+        <main className="pt-28 flex-1"> 
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<Homeprofile />} /> 
