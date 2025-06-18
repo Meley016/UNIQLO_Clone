@@ -37,12 +37,13 @@ const AppHeader = () => {
             >
               <MenuOutlined className="text-2xl" />
             </button>
-            <button
+            <Link
+              to="/search"
               className="focus:outline-none hover:text-blue-600 p-2 rounded-full transition-colors duration-200"
               aria-label="Tìm kiếm"
             >
               <SearchOutlined className="text-2xl" />
-            </button>
+            </Link>
           </div>
           <Link
             to="/"

@@ -22,7 +22,7 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post('/api/Account/login', {
+      const response = await axios.post('https://localhost:5171/api/Account/login', {
         email: values.email, 
         password: values.password, 
       }, {

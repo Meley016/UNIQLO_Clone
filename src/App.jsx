@@ -14,6 +14,8 @@ import MainCategoryList from './components/categories/MainCategoryList';
 import ProductDetail from './components/products/productdetail/page';
 import CartPage from './components/account/cart/cart';
 import Profile from './pages/profile';
+import Search from './components/search/page';
+import SearchResults from './components/search/results/page';
 const App = () => {
   return (
     <BrowserRouter>
@@ -29,6 +31,8 @@ const App = () => {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/searchresults" element={<SearchResults/>} />
             <Route
               path="/login"
               element={
