@@ -12,7 +12,9 @@ const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState(searchParams.get('colorCode') || (product?.colors[0]?.code || 'COL00'));
   const [selectedSize, setSelectedSize] = useState(searchParams.get('sizeCode') || (product?.sizes[0]?.code || 'SMA004'));
   const [relatedProducts, setRelatedProducts] = useState([]);
-
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -52,8 +54,12 @@ const ProductDetail = () => {
     navigate(`/product/${id}?colorCode=${selectedColor}&sizeCode=${sizeCode}`);
   };
 
- // ...existing code...
 const handleAddToCart = () => {
+  if (!product) {
+    alert('Sản phẩm chưa sẵn sàng để thêm vào giỏ hàng.');
+    return;
+  }
+
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const existingIndex = cart.findIndex(
     item =>
@@ -61,10 +67,10 @@ const handleAddToCart = () => {
       item.selectedColor === selectedColor &&
       item.selectedSize === selectedSize
   );
+
   if (existingIndex !== -1) {
     cart[existingIndex].quantity += 1;
   } else {
-    // Nếu chưa có thì thêm mới
     cart.push({
       id: product.id,
       name: product.name,
@@ -75,8 +81,9 @@ const handleAddToCart = () => {
       quantity: 1,
     });
   }
+
   localStorage.setItem('cart', JSON.stringify(cart));
-  alert('Đã thêm vào giỏ hàng!');
+  alert('✅ Đã thêm sản phẩm vào giỏ hàng!');
 };
 
   if (loading) {
