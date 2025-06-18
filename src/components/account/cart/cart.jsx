@@ -6,6 +6,31 @@ const CartPage = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isCartLoaded, setIsCartLoaded] = useState(false); // Thêm flag để theo dõi
   const navigate = useNavigate();
+const handleCheckout = () => {
+  if (cart.length === 0) return;
+
+  // Lấy lịch sử đơn hàng hiện tại (nếu có)
+  const existingOrders = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+  // Tạo đơn hàng mới
+  const newOrder = {
+    id: Date.now(),
+    items: cart,
+    total: total,
+    date: new Date().toLocaleString(),
+  };
+
+  // Lưu vào lịch sử
+  const updatedOrders = [...existingOrders, newOrder];
+  localStorage.setItem('orderHistory', JSON.stringify(updatedOrders));
+
+  // Xóa giỏ hàng
+  localStorage.removeItem('cart');
+  setCart([]);
+
+  alert('Thanh toán thành công! Đơn hàng đã được lưu.');
+  navigate('/');
+};
 
   // Load giỏ hàng từ localStorage khi component mount
   useEffect(() => {
@@ -181,9 +206,13 @@ const CartPage = () => {
 
             {/* Nút thanh toán */}
             <div className="space-y-3">
-              <button className="w-full bg-red-600 text-white py-3 rounded font-semibold hover:bg-red-700 transition">
-                THANH TOÁN
-              </button>
+           <button
+            className="w-full bg-red-600 text-white py-3 rounded font-semibold hover:bg-red-700 transition"
+            onClick={handleCheckout}
+          >
+            THANH TOÁN
+          </button>
+
               <button
         className="w-full border border-gray-300 text-gray-700 py-3 rounded font-semibold hover:bg-gray-50 transition"
         onClick={() => navigate('/')}
