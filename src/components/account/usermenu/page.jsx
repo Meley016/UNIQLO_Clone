@@ -1,29 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { Dropdown, Menu, message } from 'antd';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { Dropdown, Menu, message, Badge } from 'antd';
+import { DownOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 
 const UserMenu = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   // Kiểm tra trạng thái đăng nhập
   const checkLoginStatus = () => {
     const token = localStorage.getItem('accessToken');
-    setIsLoggedIn(!!token); // Cập nhật trạng thái dựa trên token
+    setIsLoggedIn(!!token);
   };
 
-  // Kiểm tra
+const updateCartCount = () => {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  // Đếm số loại sản phẩm khác nhau (id + selectedColor + selectedSize)
+  const uniqueCount = cart.length;
+  setCartCount(uniqueCount);
+};
+
   useEffect(() => {
-    checkLoginStatus(); 
+    checkLoginStatus();
+    updateCartCount();
 
     window.addEventListener('loginStatusChanged', checkLoginStatus);
-    window.addEventListener('storage', checkLoginStatus); 
+    window.addEventListener('storage', () => {
+      checkLoginStatus();
+      updateCartCount();
+    });
 
     return () => {
       window.removeEventListener('loginStatusChanged', checkLoginStatus);
-      window.removeEventListener('storage', checkLoginStatus);
+      window.removeEventListener('storage', updateCartCount);
     };
+  }, []);
+
+  // Khi thêm/xóa sản phẩm ở trang khác, có thể dispatch sự kiện này để cập nhật realtime
+  useEffect(() => {
+    const handler = () => updateCartCount();
+    window.addEventListener('cartChanged', handler);
+    return () => window.removeEventListener('cartChanged', handler);
   }, []);
 
   const handleLogout = () => {
@@ -45,7 +63,12 @@ const UserMenu = () => {
         <Link to="/orders">Đơn hàng</Link>
       </Menu.Item>
       <Menu.Item key="cart">
-        <Link to="/cart">Giỏ hàng</Link>
+        <Link to="/cart">
+          Giỏ hàng{' '}
+          <Badge count={cartCount} size="small" offset={[8, 0]}>
+            <ShoppingCartOutlined />
+          </Badge>
+        </Link>
       </Menu.Item>
       <Menu.Item key="payment">
         <Link to="/payment">Thanh toán</Link>
