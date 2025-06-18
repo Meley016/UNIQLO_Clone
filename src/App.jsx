@@ -12,14 +12,13 @@ import RegisterLayout from './components/ui/register/layout';
 import SubCategoryList from './components/categories/SubCategoryList';
 import MainCategoryList from './components/categories/MainCategoryList';
 import ProductDetail from './components/products/productdetail/page';
-<<<<<<< HEAD
 import CartPage from './components/account/cart/cart';
 import Profile from './pages/profile';
 import Search from './components/search/page';
 import SearchResults from './components/search/results/page';
-=======
+import CheckoutForm from './pages/CheckoutForm';
 
->>>>>>> f26f639a1c73a61a562f7c317869a75d950ee885
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -27,20 +26,18 @@ const App = () => {
         <div className="fixed top-0 w-full z-10">
           <AppHeader />
         </div>
+        <ProductList />
         <main className="pt-28 flex-1"> 
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/profile" element={<Homeprofile />} /> 
             <Route path="/:parentCategoryName" element={<SubCategoryList />} />
             <Route path="/:parentCategoryName/:subcategoryName" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
-<<<<<<< HEAD
             <Route path="/profile" element={<Profile />} />
+            <Route path="/payment" element={<CheckoutForm/>} />
             <Route path="/search" element={<Search />} />
             <Route path="/searchresults" element={<SearchResults/>} />
-=======
->>>>>>> f26f639a1c73a61a562f7c317869a75d950ee885
             <Route
               path="/login"
               element={

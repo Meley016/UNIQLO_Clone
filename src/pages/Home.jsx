@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ProductList from '../components/products/productlist/page';
 
 const Home = () => {
   const [mainCategories, setMainCategories] = useState([]);
@@ -80,6 +81,7 @@ const Home = () => {
           </Link>
         ))}
       </div>
+             <ProductList/>
 
       {/* Chỉ số ảnh (dots) */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
