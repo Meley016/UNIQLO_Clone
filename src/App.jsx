@@ -12,6 +12,9 @@ import RegisterLayout from './components/ui/register/layout';
 import SubCategoryList from './components/categories/SubCategoryList';
 import MainCategoryList from './components/categories/MainCategoryList';
 import ProductDetail from './components/products/productdetail/page';
+import CheckoutForm from "./pages/CheckoutForm";
+import Homeprofile from './pages/profile';
+import CartPage from './pages/CartPage.jsx'; 
 
 const App = () => {
   return (
@@ -21,13 +24,14 @@ const App = () => {
           <AppHeader />
         </div>
         <main className="pt-28 flex-1">
-          <Routes> 
+          <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/profile" element={<Homeprofile />} /> 
+            <Route path="/profile" element={<Homeprofile />} />
             <Route path="/:parentCategoryName" element={<SubCategoryList />} />
             <Route path="/:parentCategoryName/:subcategoryName" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutForm />} />
             <Route
               path="/login"
               element={
