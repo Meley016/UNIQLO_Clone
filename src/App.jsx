@@ -13,11 +13,12 @@ import SubCategoryList from './components/categories/SubCategoryList';
 import MainCategoryList from './components/categories/MainCategoryList';
 import ProductDetail from './components/products/productdetail/page';
 import CartPage from './components/account/cart/cart';
-import Profile from './pages/profile';
+import Profile from './pages/Profile';
 import Search from './components/search/page';
 import SearchResults from './components/search/results/page';
 import CheckoutForm from './pages/CheckoutForm';
-
+import EditProfile from "./pages/EditProfile"
+import ChangePassword from './pages/ChangePassword';
 
 const App = () => {
   return (
@@ -35,9 +36,11 @@ const App = () => {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/payment" element={<CheckoutForm/>} />
+            <Route path="/payment" element={<CheckoutForm />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/searchresults" element={<SearchResults/>} />
+            <Route path="/searchresults" element={<SearchResults />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
+            {/* <Route path="/change-password" element={<ChangePassword />} /> */}
             <Route
               path="/login"
               element={
