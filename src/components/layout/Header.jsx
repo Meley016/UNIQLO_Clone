@@ -51,7 +51,7 @@ const AppHeader = () => {
             style={{ lineHeight: '100px' }}
           >
             <img
-              src="/Logo_1.png"
+              src="/Logo1.png"
               alt="Shop Sida Logo"
               className="h-max w-36 mr-2"
             />

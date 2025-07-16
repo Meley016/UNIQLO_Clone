@@ -11,6 +11,8 @@ const ProductCard = ({ image, name, code, price }) => {
       <h2 className="text-lg font-semibold text-gray-800 mt-3 mb-2">{name}</h2>
       <div className="flex justify-between text-sm text-gray-600">
         <span className="font-bold">{code}</span>
+      </div>
+      <div>
         <span className="text-pink-600">{price.toLocaleString('vi-VN')} VND</span>
       </div>
       <button

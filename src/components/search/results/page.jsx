@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation, Link } from 'react-router-dom';
+import { message } from 'antd';
+import axiosInstance from '../../../utils/axios';
 
 const SearchResults = () => {
   const [results, setResults] = useState([]);
@@ -11,19 +12,21 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await axios.get('/fake_api.json'); // Hoặc API: /api/search?q=${query}
-        const filtered = response.data.filter((product) =>
-          product.name.toLowerCase().includes(query.toLowerCase())
-        );
-        setResults(filtered);
+        const response = await axiosInstance.get('/Products', {
+          params: { search: query, page: 1, pageSize: 20 }, // Giới hạn 20 kết quả
+        });
+        const products = response.data.items || [];
+        setResults(products);
         setLoading(false);
       } catch (err) {
         console.error('Lỗi khi tìm kiếm:', err);
+        message.error('Lỗi khi lấy kết quả tìm kiếm');
         setLoading(false);
       }
     };
 
     if (query) fetchResults();
+    else setLoading(false);
   }, [query]);
 
   if (loading) return <div className="text-center p-4">Đang tải...</div>;
@@ -35,15 +38,33 @@ const SearchResults = () => {
       <h2 className="text-xl font-bold mb-4">Kết quả tìm kiếm cho: {query}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {results.map((product) => (
-          <div key={product.id} className="border p-2">
-            <Image
-              src={product.image || 'https://via.placeholder.com/150'}
+          <Link
+            key={product.id}
+            to={`/product/${product.id}`}
+            className="border p-2 hover:shadow-lg transition"
+          >
+            <img
+              src={product.images?.[0] || 'https://via.placeholder.com/150'}
               alt={product.name}
               className="w-full h-40 object-cover"
               loading="lazy"
             />
             <h3 className="text-lg font-semibold">{product.name}</h3>
-          </div>
+            <p className="text-gray-600">{product.price.toLocaleString('vi-VN')} VND</p>
+            <div className="flex gap-1 mt-1">
+              {[...new Set(product.variants?.map((v) => v.colorId) || [])]
+                .slice(0, 3)
+                .map((colorId) => (
+                  <div
+                    key={colorId}
+                    className="w-4 h-4 rounded-full border"
+                    style={{
+                      backgroundColor: colorId === 'COL00' ? '#000' : colorId === 'COL01' ? '#fff' : colorId,
+                    }}
+                  />
+                ))}
+            </div>
+          </Link>
         ))}
       </div>
     </div>

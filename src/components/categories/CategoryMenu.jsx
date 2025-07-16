@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu } from 'antd';
 import { RightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../utils/axios';
 
 const CategoryMenu = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
@@ -11,10 +11,15 @@ const CategoryMenu = ({ onClose }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/categories.json');
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Lỗi khi lấy danh mục:', error.message || 'Đã xảy ra lỗi');
+        const response = await axiosInstance.get('/Categories'); // Sử dụng axiosInstance và đường dẫn tương đối
+        if (!response.data.items) {
+          throw new Error('Lỗi khi lấy dữ liệu danh mục');
+        }
+        setCategories(response.data.items);
+        setLoading(false);
+      } catch (err) {
+        setError(err || 'Đã xảy ra lỗi'); // Lỗi từ interceptor sẽ trả về message
+        setLoading(false);
       }
     };
 

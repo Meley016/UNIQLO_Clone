@@ -13,11 +13,12 @@ import SubCategoryList from './components/categories/SubCategoryList';
 import MainCategoryList from './components/categories/MainCategoryList';
 import ProductDetail from './components/products/productdetail/page';
 import CartPage from './components/account/cart/cart';
-import Profile from './pages/profile';
+import Profile from './components/account/profile/page';
 import Search from './components/search/page';
 import SearchResults from './components/search/results/page';
-import CheckoutForm from './pages/CheckoutForm';
-
+import Favorites from './components/products/favorites/page';
+import PaymentMethod from './components/account/payment/page';
+import CheckoutPage from './components/account/payment/checkoutPayment/page';
 
 const App = () => {
   return (
@@ -26,17 +27,18 @@ const App = () => {
         <div className="fixed top-0 w-full z-10">
           <AppHeader />
         </div>
-        <ProductList />
         <main className="pt-28 flex-1"> 
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/:parentCategoryName" element={<SubCategoryList />} />
-            <Route path="/:parentCategoryName/:subcategoryName" element={<ProductList />} />
+            {/* <Route path="/:parentCategoryName" element={<SubCategoryList />} /> */}
+            <Route path="/:parentCategoryName" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/payment" element={<CheckoutForm/>} />
+            <Route path="/payment" element={<PaymentMethod/>} />
             <Route path="/search" element={<Search />} />
+            <Route path='/paymentprocess' element={<CheckoutPage/>} />
             <Route path="/searchresults" element={<SearchResults/>} />
             <Route
               path="/login"

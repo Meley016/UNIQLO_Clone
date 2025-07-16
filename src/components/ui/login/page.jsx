@@ -2,18 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import axios from 'axios';
-
-axios.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+import axiosInstance from '../../../utils/axios';
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
@@ -22,16 +11,12 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post('https://localhost:5171/api/Account/login', {
-        email: values.email, 
-        password: values.password, 
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const response = await axiosInstance.post('/Account/login', {
+        email: values.email,
+        password: values.password,
       });
 
-      const { email, accessToken, expriesIn } = response.data; 
+      const { email, accessToken, expriesIn } = response.data;
 
       console.log('Đăng nhập thành công:', { email, accessToken, expriesIn });
 
@@ -43,10 +28,10 @@ const LoginPage = () => {
       message.success('Đăng nhập thành công!');
       navigate('/');
 
-      // check LocalSto
+      // Trigger sự kiện loginStatusChanged
       window.dispatchEvent(new Event('loginStatusChanged'));
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
+      const errorMessage = error || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
       message.error(errorMessage);
       console.error('Lỗi đăng nhập:', error);
     } finally {
@@ -128,14 +113,12 @@ const LoginPage = () => {
               Hãy tạo tài khoản ngay! Bạn có thể tạo một tài khoản đặc biệt dành cho bạn với những ưu đãi hấp dẫn hoặc tạo tài khoản đơn giản cho nhân viên của bạn.
             </p>
           </div>
-          <Button
-            type="primary"
-            size="large"
-            block
-            className="bg-black hover:bg-gray-800 rounded-sm py-2 text-white font-medium"
-          >
-            TẠO TÀI KHOẢN
-          </Button>
+          <Link to="/register" 
+                type="primary"
+                size="large"
+                block className="bg-black hover:bg-gray-800 rounded-sm py-2 text-white font-medium">
+              Chưa có tài khoản?
+          </Link>
         </div>
       </div>
     </div>
