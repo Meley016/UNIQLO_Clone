@@ -11,9 +11,14 @@ const ProductCard = ({ image, name, code, price }) => {
       <h2 className="text-lg font-semibold text-gray-800 mt-3 mb-2">{name}</h2>
       <div className="flex justify-between text-sm text-gray-600">
         <span className="font-bold">{code}</span>
+      </div>
+      <div>
         <span className="text-pink-600">{price.toLocaleString('vi-VN')} VND</span>
       </div>
-      <button className="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-300">
+      <button
+        className="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-300"
+        onClick={(e) => e.stopPropagation()} 
+      >
         Thêm vào giỏ hàng
       </button>
     </div>

@@ -1,8 +1,24 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
-import AppHeader from './layout/Header';
-import AppFooter from './layout/Footer';
+import HomePage from './pages/Home';
+import AppHeader from './components/layout/Header';
+import AppFooter from './components/layout/Footer';
+import ProductList from './components/products/productlist/page';
+import LoginPage from './components/ui/login/page';
+import LoginLayout from './components/ui/login/layout';
+import RegisterPage from './components/ui/register/page';
+import RegisterLayout from './components/ui/register/layout';
+import SubCategoryList from './components/categories/SubCategoryList';
+import MainCategoryList from './components/categories/MainCategoryList';
+import ProductDetail from './components/products/productdetail/page';
+import CartPage from './components/account/cart/cart';
+import Profile from './components/account/profile/page';
+import Search from './components/search/page';
+import SearchResults from './components/search/results/page';
+import Favorites from './components/products/favorites/page';
+import PaymentMethod from './components/account/payment/page';
+import CheckoutPage from './components/account/payment/checkoutPayment/page';
 
 const App = () => {
   return (
@@ -11,28 +27,35 @@ const App = () => {
         <div className="fixed top-0 w-full z-10">
           <AppHeader />
         </div>
-        <main className="container mx-auto mt-20 px-4 py-8 flex-grow">
+        <main className="pt-28 flex-1"> 
           <Routes>
-            {/* <Route path="/" element={<HomePage />} /> */}
-            <Route path="/men" element={<h2 className="text-2xl font-bold">Bộ sưu tập Nam</h2>} />
-            <Route path="/women" element={<h2 className="text-2xl font-bold">Bộ sưu tập Nữ</h2>} />
-            <Route path="/handbags" element={<h2 className="text-2xl font-bold">Túi Xách</h2>} />
-            <Route path="/shoes" element={<h2 className="text-2xl font-bold">Giày</h2>} />
-            <Route path="/accessories" element={<h2 className="text-2xl font-bold">Phụ Kiện</h2>} />
-            <Route path="/account" element={<h2 className="text-2xl font-bold">Tài khoản</h2>} />
-            <Route path="/cart" element={<h2 className="text-2xl font-bold">Giỏ hàng</h2>} />
-            <Route path="/categories" element={<h2 className="text-2xl font-bold">Danh mục</h2>} />
-            <Route path="/collections" element={<h2 className="text-2xl font-bold">Bộ sưu tập</h2>} />
-            <Route path="/art-exhibitions" element={<h2 className="text-2xl font-bold">Triển lãm nghệ thuật</h2>} />
-            <Route path="/about" element={<h2 className="text-2xl font-bold">Về ShopSida</h2>} />
-            <Route path="/contact" element={<h2 className="text-2xl font-bold">Liên hệ</h2>} />
-            <Route path="/blog" element={<h2 className="text-2xl font-bold">Blog</h2>} />
-            <Route path="/embroidery-effects" element={<h2 className="text-2xl font-bold">Hiệu ứng thêu</h2>} />
-            <Route path="/track-order" element={<h2 className="text-2xl font-bold">Theo dõi đơn hàng</h2>} />
-            <Route path="/shipping-policy" element={<h2 className="text-2xl font-bold">Chính sách vận chuyển</h2>} />
-            <Route path="/return-policy" element={<h2 className="text-2xl font-bold">Chính sách đổi trả</h2>} />
-            <Route path="/terms-of-service" element={<h2 className="text-2xl font-bold">Điều khoản dịch vụ</h2>} />
-            <Route path="/privacy-policy" element={<h2 className="text-2xl font-bold">Chính sách bảo mật</h2>} />
+            <Route path="/" element={<HomePage />} />
+            {/* <Route path="/:parentCategoryName" element={<SubCategoryList />} /> */}
+            <Route path="/:parentCategoryName" element={<ProductList />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/payment" element={<PaymentMethod/>} />
+            <Route path="/search" element={<Search />} />
+            <Route path='/paymentprocess' element={<CheckoutPage/>} />
+            <Route path="/searchresults" element={<SearchResults/>} />
+            <Route
+              path="/login"
+              element={
+                <LoginLayout>
+                  <LoginPage />
+                </LoginLayout>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <RegisterLayout>
+                  <RegisterPage />
+                </RegisterLayout>
+              }
+            />
           </Routes>
         </main>
         <AppFooter />
