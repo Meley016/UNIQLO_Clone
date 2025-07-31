@@ -68,7 +68,6 @@ function PaymentMethod() {
   return (
     <div className="max-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full flex">
-        {/* Cột bên trái: Các nút phương thức thanh toán và phương thức đã lưu */}
         <div className="w-1/4 pr-4 border-r">
           <h2 className="text-lg font-semibold mb-4">Phương thức thanh toán</h2>
           <div className="flex flex-col space-y-4">

@@ -24,7 +24,7 @@ const RegisterPage = () => {
       const response = await axiosInstance.post('/Account/register', {
         Email: values.email,
         Password: values.password,
-        CustomerName: values.customerName || undefined, // Không bắt buộc
+        CustomerName: values.customerName || undefined,
         Age: age,
         Gender: gender,
         Newsletter: values.newsletter || false,
