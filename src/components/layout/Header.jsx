@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { HeartOutlined, MenuOutlined, SearchOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MenuOutlined, SearchOutlined, HeartOutlined } from '@ant-design/icons';
 import UserMenu from '../account/usermenu/page';
 import HamburgerMenu from '../categories/Menu';
 
@@ -58,7 +58,7 @@ const AppHeader = () => {
           </Link>
           <div className="flex items-center space-x-6 text-black h-full">
             <Link
-              to="/favorites"
+              to="/payment-success"
               className="hover:text-blue-600 p-2 rounded-full transition-colors duration-200 flex items-center"
             >
               <HeartOutlined className="text-2xl" />
