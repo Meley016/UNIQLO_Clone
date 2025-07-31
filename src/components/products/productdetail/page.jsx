@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams, Link, useNavigate } from 'react-router-dom';
-import ProductCard from '../../common/ProductCard';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import axiosInstance from '../../../utils/axios';
+import ProductCard from '../../common/ProductCard';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const sliderRef = useRef(null);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,28 +25,26 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Lấy dữ liệu sản phẩm
         const productResponse = await axiosInstance.get(`/Products/${id}`);
         const productData = productResponse.data;
 
         if (!productData) throw new Error('Sản phẩm không tồn tại');
+        console.log('Product data:', productData); // Debug toàn bộ dữ liệu sản phẩm
+        console.log('Product images:', productData.images); // Debug dữ liệu ảnh
         setProduct(productData);
 
-        // Lấy dữ liệu màu sắc
         const colorsResponse = await axiosInstance.get('/Colors');
         if (!colorsResponse.data.items || !Array.isArray(colorsResponse.data.items)) {
           throw new Error('Dữ liệu màu sắc không hợp lệ');
         }
         setColorsData(colorsResponse.data.items);
 
-        // Lấy dữ liệu kích cỡ
         const sizesResponse = await axiosInstance.get('/Sizes');
         if (!sizesResponse.data.items || !Array.isArray(sizesResponse.data.items)) {
           throw new Error('Dữ liệu kích cỡ không hợp lệ');
         }
         setSizesData(sizesResponse.data.items);
 
-        // Lấy sản phẩm liên quan
         const relatedResponse = await axiosInstance.get('/Products', {
           params: { page: 1, pageSize: 100 },
         });
@@ -54,7 +56,6 @@ const ProductDetail = () => {
           .slice(0, 4);
         setRelatedProducts(related);
 
-        // Thiết lập biến thể mặc định
         const defaultVariant = productData.variants?.[0] || { colorId: 'COL00', sizeId: 'SIZE01' };
         setSelectedVariant({
           colorId: searchParams.get('colorId') || defaultVariant.colorId,
@@ -72,13 +73,12 @@ const ProductDetail = () => {
     fetchData();
   }, [id, searchParams]);
 
-  // Cập nhật sizeOptions khi selectedVariant.colorId thay đổi
   useEffect(() => {
     if (product && selectedVariant?.colorId) {
       const uniqueSizes = [
         ...new Map(
           product.variants
-            .filter((v) => v.colorId === selectedVariant.colorId)
+            ?.filter((v) => v.colorId === selectedVariant.colorId)
             .map((v) => [
               v.sizeId,
               {
@@ -90,7 +90,6 @@ const ProductDetail = () => {
       ];
       setSizeOptions(uniqueSizes);
 
-      // Đảm bảo sizeId được chọn hợp lệ
       const validSizeId = uniqueSizes.find((size) => size.id === selectedVariant.sizeId)
         ? selectedVariant.sizeId
         : uniqueSizes[0]?.id;
@@ -101,7 +100,6 @@ const ProductDetail = () => {
     }
   }, [product, selectedVariant?.colorId, sizesData, id, navigate]);
 
-  // Hàm lấy thông tin màu sắc
   const getColorStyle = (colorId) => {
     const color = colorsData.find((c) => c.id === colorId);
     return {
@@ -117,7 +115,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!selectedVariant) return alert('Vui lòng chọn màu sắc và kích cỡ!');
-    const selected = product.variants.find(
+    const selected = product.variants?.find(
       (v) => v.colorId === selectedVariant.colorId && v.sizeId === selectedVariant.sizeId
     );
     if (!selected || selected.quantity <= 0) return alert('Sản phẩm không có sẵn!');
@@ -136,7 +134,7 @@ const ProductDetail = () => {
       cart.push({
         id: product.id,
         name: product.name,
-        image: product.images?.[0] || '/default-image.jpg',
+        image: product.images?.[0] || 'https://via.placeholder.com/400',
         price: product.price,
         selectedColorId: selectedVariant.colorId,
         selectedSizeId: selectedVariant.sizeId,
@@ -159,7 +157,7 @@ const ProductDetail = () => {
       favorites.push({
         id: product.id,
         name: product.name,
-        image: product.images?.[0] || '/default-image.jpg',
+        image: product.images?.[0] || 'https://via.placeholder.com/400',
         price: product.price,
       });
       localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -168,141 +166,271 @@ const ProductDetail = () => {
     }
   };
 
-  if (loading) return <div className="text-center text-gray-500 p-4">Đang tải...</div>;
-  if (error) return <div className="text-center text-red-500 p-4">Lỗi: {error}</div>;
-  if (!product) return <div className="text-center p-4">Không tìm thấy sản phẩm</div>;
+  const handleThumbnailClick = (index) => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(index);
+      console.log('Thumbnail clicked, navigating to slide:', index); // Debug điều hướng slider
+    }
+  };
+
+  if (loading) return <div className="text-center text-gray-500 p-4 text-lg">Đang tải...</div>;
+  if (error) return <div className="text-center text-red-500 p-4 text-lg">Lỗi: {error}</div>;
+  if (!product) return <div className="text-center p-4 text-lg">Không tìm thấy sản phẩm</div>;
 
   const shortDescription = product.description?.slice(0, 100) + '...' || 'Không có mô tả';
   const longDescription = product.description || 'Không có mô tả chi tiết';
   const colors = [...new Set(product.variants?.map((v) => v.colorId) || [])];
-  const selected = product.variants.find(
+  const selected = product.variants?.find(
     (v) => v.colorId === selectedVariant?.colorId && v.sizeId === selectedVariant?.sizeId
   );
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-screen">
-        <div className="lg:col-span-2 overflow-y-auto max-h-[calc(100vh-8rem)]">
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="w-full lg:w-1/2">
-              <img
-                src={product.images?.[0] || '/default-image.jpg'}
-                alt={product.name}
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
-          </div>
+  const sliderSettings = {
+    dots: product.images && product.images.length > 1,
+    infinite: product.images && product.images.length > 1,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: product.images && product.images.length > 1,
+    autoplay: product.images && product.images.length > 1,
+    autoplaySpeed: 3000,
+    lazyLoad: 'ondemand', // Load ảnh theo yêu cầu để cải thiện hiệu suất
+    adaptiveHeight: false, // Đảm bảo chiều cao cố định
+    customPaging: () => (
+      <div className="w-3 h-3 bg-gray-300 rounded-full hover:bg-gray-500 transition"></div>
+    ),
+    appendDots: (dots) => (
+      <div>
+        <ul className="flex justify-center gap-2 mt-4">{dots}</ul>
+      </div>
+    ),
+    prevArrow: (
+      <button className="slick-prev bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 transition">
+        ❮
+      </button>
+    ),
+    nextArrow: (
+      <button className="slick-next bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600 transition">
+        ❯
+      </button>
+    ),
+    afterChange: (current) => console.log('Current slide:', current), // Debug slide hiện tại
+  };
 
-          <div className="mt-6">
-            <p className="font-semibold text-lg">Mô tả</p>
-            <p>Mã sản phẩm: {product.id}</p>
-            <details className="mb-4">
-              <summary className="text-lg font-semibold cursor-pointer bg-gray-100 rounded-md hover:bg-gray-200 transition">
+  return (
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <style>
+        {`
+          .slick-slider {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+          }
+          .slick-list, .slick-track {
+            width: 100%;
+            height: 100%;
+          }
+          .slick-slide {
+            outline: none;
+            height: 100%;
+            min-height: 400px; /* Đảm bảo chiều cao tối thiểu */
+          }
+          .slick-slide > div {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .slick-slide img {
+            width: 100%;
+            height: 100%;
+            max-height: 500px; /* Giới hạn chiều cao tối đa */
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+          }
+          .slick-slide img:hover {
+            transform: scale(2);
+            transform-origin: center;
+            cursor: zoom-in;
+          }
+          .slick-dots li button:before {
+            color: #d1d5db; /* Màu dots */
+          }
+          .slick-dots li.slick-active button:before {
+            color: #374151; /* Màu dot khi active */
+          }
+        `}
+      </style>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="lg:col-span-2">
+          <div className="relative w-full h-[400px] sm:h-[500px] rounded-lg overflow-hidden">
+            <Slider {...sliderSettings} ref={sliderRef}>
+              {product.images && product.images.length > 0 ? (
+                product.images
+                  .filter((image) => image && typeof image === 'string') // Loại bỏ giá trị không hợp lệ
+                  .map((image, index) => (
+                    <div key={index} className="relative w-full h-full">
+                      <div className="w-full h-full flex items-center justify-center">
+                        <img
+                          src={image || 'https://via.placeholder.com/400'}
+                          alt={`${product.name} - ${index + 1}`}
+                          className="w-full h-full object-contain transition-transform duration-300 hover:scale-200 cursor-zoom-in"
+                          style={{ transformOrigin: 'center' }}
+                          onError={(e) => {
+                            console.log(`Failed to load image: ${image}`);
+                            e.target.src = 'https://via.placeholder.com/400';
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))
+              ) : (
+                <div className="relative w-full h-full">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <img
+                      src="https://via.placeholder.com/400"
+                      alt={product.name}
+                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-200 cursor-zoom-in"
+                      style={{ transformOrigin: 'center' }}
+                      onError={() => console.log('Failed to load default image')}
+                    />
+                  </div>
+                </div>
+              )}
+            </Slider>
+          </div>
+          {product.images && product.images.length > 1 && (
+            <div className="flex gap-2 mt-4 justify-center">
+              {product.images
+                .filter((image) => image && typeof image === 'string') // Loại bỏ giá trị không hợp lệ
+                .map((image, index) => (
+                  <img
+                    key={index}
+                    src={image || 'https://via.placeholder.com/400'}
+                    alt={`${product.name} - thumbnail ${index + 1}`}
+                    className="w-16 h-16 object-cover rounded-md cursor-pointer hover:opacity-80 transition"
+                    onClick={() => handleThumbnailClick(index)}
+                    onError={(e) => {
+                      console.log(`Failed to load thumbnail: ${image}`);
+                      e.target.src = 'https://via.placeholder.com/400';
+                    }}
+                  />
+                ))}
+            </div>
+          )}
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold text-gray-800">Mô tả sản phẩm</h2>
+            <p className="text-gray-600 mt-2">Mã sản phẩm: {product.id}</p>
+            <details className="mt-4">
+              <summary className="text-lg font-medium cursor-pointer bg-gray-100 rounded-md p-3 hover:bg-gray-200 transition">
                 Mô tả ngắn
               </summary>
-              <p className="text-gray-700 p-2">{shortDescription}</p>
+              <p className="text-gray-700 p-4 bg-gray-50 rounded-md">{shortDescription}</p>
             </details>
-            <details className="mb-4">
-              <summary className="text-lg font-semibold cursor-pointer bg-gray-100 rounded-md hover:bg-gray-200 transition">
+            <details className="mt-4">
+              <summary className="text-lg font-medium cursor-pointer bg-gray-100 rounded-md p-3 hover:bg-gray-200 transition">
                 Mô tả chi tiết
               </summary>
-              <p className="text-gray-700 p-2">{longDescription}</p>
+              <p className="text-gray-700 p-4 bg-gray-50 rounded-md">{longDescription}</p>
             </details>
           </div>
         </div>
 
-        <div className="lg:col-span-1 sticky top-28 p-4 h-[calc(100vh-8rem)] overflow-y-auto">
-          <div className="w-full">
-            <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
-            <p className="text-gray-600 mb-2">Mã sản phẩm: {product.id}</p>
-            <p className="text-xl font-semibold mb-4">Giá: {product.price.toLocaleString('vi-VN')} VND</p>
-            {selected && (
-              <p className="text-sm text-gray-600 mb-4">
-                Tồn kho: {selected.quantity} sản phẩm
-              </p>
-            )}
+        <div className="lg:col-span-1 bg-white p-6 rounded-lg shadow-md">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">{product.name}</h1>
+          <p className="text-gray-600 mb-2">Mã sản phẩm: {product.id}</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
+            Giá: {product.price.toLocaleString('vi-VN')} VND
+          </p>
+          {selected && (
+            <p className="text-sm text-gray-600 mb-4">
+              Tồn kho: {selected.quantity} sản phẩm
+            </p>
+          )}
 
-            {/* Màu sắc */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Màu sắc:</label>
-              <div className="flex gap-2">
-                {colors.map((colorId) => (
-                  <button
-                    key={colorId}
-                    onClick={() => handleVariantChange(colorId, selectedVariant.sizeId)}
-                    className={`w-8 h-8 rounded-full border ${
-                      selectedVariant.colorId === colorId ? 'border-black' : 'border-gray-300'
-                    }`}
-                    style={{ backgroundColor: getColorStyle(colorId).backgroundColor }}
-                    title={getColorStyle(colorId).name}
-                  >
-                    {selectedVariant.colorId === colorId && (
-                      <span className="text-xs text-white">✓</span>
-                    )}
-                  </button>
-                ))}
-              </div>
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Màu sắc:</label>
+            <div className="flex gap-3 flex-wrap">
+              {colors.map((colorId) => (
+                <button
+                  key={colorId}
+                  onClick={() => handleVariantChange(colorId, selectedVariant?.sizeId)}
+                  className={`w-10 h-10 rounded-full border-2 transition-all duration-300 ${
+                    selectedVariant?.colorId === colorId ? 'border-blue-500 scale-110' : 'border-gray-300'
+                  } hover:scale-110`}
+                  style={{ backgroundColor: getColorStyle(colorId).backgroundColor }}
+                  title={getColorStyle(colorId).name}
+                >
+                  {selectedVariant?.colorId === colorId && (
+                    <span className="text-xs text-white font-bold">✓</span>
+                  )}
+                </button>
+              ))}
             </div>
-
-            {/* Kích cỡ */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Kích cỡ:</label>
-              <div className="flex gap-2 flex-wrap">
-                {sizeOptions.map((size) => (
-                  <button
-                    key={size.id}
-                    onClick={() => handleVariantChange(selectedVariant.colorId, size.id)}
-                    className={`px-3 py-1 border rounded ${
-                      selectedVariant.sizeId === size.id
-                        ? 'border-black bg-gray-100'
-                        : 'border-gray-300'
-                    }`}
-                  >
-                    {size.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Nút chức năng */}
-            <div className="flex gap-2">
-              <button
-                onClick={handleAddToCart}
-                className="w-full bg-black text-white py-3 rounded hover:bg-gray-800 transition"
-                disabled={!selected || selected.quantity <= 0}
-              >
-                THÊM VÀO GIỎ HÀNG
-              </button>
-              <button
-                onClick={handleToggleFavorite}
-                className={`px-3 py-3 rounded ${
-                  isFavorite
-                    ? 'bg-red-500 text-white'
-                    : 'bg-gray-200 text-red-500'
-                } hover:bg-red-600 hover:text-white transition`}
-                title={isFavorite ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
-              >
-                ❤️
-              </button>
-            </div>
-            <Link to="/favorites" className="block mt-2 text-blue-600 hover:underline text-center">
-              Xem danh sách yêu thích
-            </Link>
           </div>
+
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Kích cỡ:</label>
+            <div className="flex gap-3 flex-wrap">
+              {sizeOptions.map((size) => (
+                <button
+                  key={size.id}
+                  onClick={() => handleVariantChange(selectedVariant?.colorId, size.id)}
+                  className={`px-4 py-2 border rounded-md text-sm font-medium transition-all duration-300 ${
+                    selectedVariant?.sizeId === size.id
+                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  {size.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex gap-3 items-center">
+            <button
+              onClick={handleAddToCart}
+              className={`flex-1 py-3 rounded-lg text-white font-medium transition-all duration-300 ${
+                !selected || selected.quantity <= 0
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+              disabled={!selected || selected.quantity <= 0}
+            >
+              THÊM VÀO GIỎ HÀNG
+            </button>
+            <button
+              onClick={handleToggleFavorite}
+              className={`p-3 rounded-lg transition-all duration-300 ${
+                isFavorite
+                  ? 'bg-red-500 text-white hover:bg-red-600'
+                  : 'bg-gray-100 text-red-500 hover:bg-red-100'
+              }`}
+              title={isFavorite ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
+            >
+              ❤️
+            </button>
+          </div>
+          <Link
+            to="/favorites"
+            className="block mt-4 text-blue-600 hover:underline text-center text-sm font-medium"
+          >
+            Xem danh sách yêu thích
+          </Link>
         </div>
       </div>
 
-      {/* Sản phẩm liên quan */}
-      <div className="mt-8">
-        <h3 className="text-lg font-semibold mb-4">Sản phẩm được quan tâm</h3>
+      <div className="mt-12">
+        <h3 className="text-xl font-semibold text-gray-800 mb-6">Sản phẩm được quan tâm</h3>
         {relatedProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {relatedProducts.map((p) => (
-              <Link key={p.id} to={`/product/${p.id}`}>
+              <Link key={p.id} to={`/product/${p.id}`} className="block">
                 <ProductCard
                   id={p.id}
-                  image={p.images?.[0] || '/default-image.jpg'}
-                  name={p.name} 
+                  image={p.images?.[0] || 'https://via.placeholder.com/400'}
+                  name={p.name}
                   code={p.id}
                   price={p.price}
                   variants={p.variants || []}
@@ -311,7 +439,7 @@ const ProductDetail = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500">Không có sản phẩm liên quan</p>
+          <p className="text-center text-gray-500 text-lg">Không có sản phẩm liên quan</p>
         )}
       </div>
     </div>
