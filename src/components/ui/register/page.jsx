@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, Radio, Checkbox, message } from 'antd';
+import { CalendarOutlined, LockOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Form, Input, message, Radio } from 'antd';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LockOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import axiosInstance from '../../../utils/axios';
 
 const RegisterPage = () => {
@@ -12,7 +12,8 @@ const RegisterPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      console.log('Đang gửi yêu cầu đăng ký:', values);
+      console.log('Đang gửi yêu cầu đăng ký - Dữ liệu:', values);
+      console.log('URL yêu cầu:', '/Customer'); // Log để kiểm tra URL
 
       // Tính tuổi từ birthdate
       const birthdate = values.birthdate ? new Date(values.birthdate) : null;
@@ -21,32 +22,34 @@ const RegisterPage = () => {
       // Ánh xạ gender
       const gender = values.gender === 'male' ? 'Male' : values.gender === 'female' ? 'Female' : 'Undefined';
 
-      const response = await axiosInstance.post('/Account/register', {
-        Email: values.email,
-        Password: values.password,
-        CustomerName: values.customerName || undefined,
-        Age: age,
-        Gender: gender,
-        Newsletter: values.newsletter || false,
-        AgreePromo1: values.agreePromo1 || false,
-        AgreePromo2: values.agreePromo2 || false,
-      });
+      // Chuẩn bị dữ liệu theo mô hình Users
+      const registrationData = {
+        customerName: values.customerName || undefined,
+        email: values.email,
+        password: values.password,
+        age: age,
+        gender: gender,
+        phoneNumber: values.phoneNumber || undefined,
+        role: 'User', // Đặt mặc định là User, vì Admin không được tạo qua endpoint này
+        createdAt: new Date().toISOString(), // Đảm bảo định dạng thời gian
+      };
 
-      const { Email, AccessToken, ExpriesIn } = response.data;
-      console.log('Đăng ký thành công:', { Email, AccessToken, ExpriesIn });
+      const response = await axiosInstance.post('/Customer', registrationData);
 
-      // Lưu token và email vào localStorage
-      localStorage.setItem('accessToken', AccessToken);
-      localStorage.setItem('userEmail', Email);
-      localStorage.setItem('tokenExpiresIn', ExpriesIn);
-      localStorage.setItem('loginTime', Date.now());
+      const { Id: userId, Email: email } = response.data; // Giả định response trả về Id và Email
+      console.log('Đăng ký thành công - ID:', userId, 'Email:', email);
+
+      // Lưu thông tin vào localStorage (giả định token không được trả về từ endpoint này)
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userId', userId); // Lưu ID nếu cần
 
       message.success('Đăng ký thành công!');
       navigate('/'); // Điều hướng về trang chủ
+      window.dispatchEvent(new Event('loginStatusChanged'));
     } catch (error) {
-      const errorMessage = error.message || 'Đăng ký thất bại. Vui lòng thử lại!';
-      message.error(errorMessage);
-      console.error('Lỗi đăng ký:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Đăng ký thất bại. Vui lòng thử lại!';
+      console.error('Lỗi đăng ký chi tiết:', error);
+      message.error(errorMessage.includes('405') ? 'Yêu cầu không hợp lệ. Vui lòng kiểm tra endpoint.' : errorMessage);
     } finally {
       setLoading(false);
     }
@@ -72,7 +75,7 @@ const RegisterPage = () => {
 
         <Form.Item
           name="customerName"
-          rules={[{ required: false, message: 'Vui lòng nhập tên!' }]}
+          rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}
         >
           <Input
             prefix={<UserOutlined className="text-gray-400" />}
@@ -89,6 +92,18 @@ const RegisterPage = () => {
           <Input
             prefix={<UserOutlined className="text-gray-400" />}
             placeholder="Địa chỉ email"
+            size="large"
+            className="border-gray-300 rounded-sm py-2 px-3 text-gray-700"
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="phoneNumber"
+          rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+        >
+          <Input
+            prefix={<PhoneOutlined className="text-gray-400" />}
+            placeholder="Số điện thoại"
             size="large"
             className="border-gray-300 rounded-sm py-2 px-3 text-gray-700"
           />

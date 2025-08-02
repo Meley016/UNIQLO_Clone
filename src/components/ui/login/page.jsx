@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, message } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message } from 'antd';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../utils/axios';
 
 const LoginPage = () => {
@@ -113,12 +113,17 @@ const LoginPage = () => {
               Hãy tạo tài khoản ngay! Bạn có thể tạo một tài khoản đặc biệt dành cho bạn với những ưu đãi hấp dẫn hoặc tạo tài khoản đơn giản cho nhân viên của bạn.
             </p>
           </div>
-          <Link to="/register" 
-                type="primary"
-                size="large"
-                block className="bg-black hover:bg-gray-800 rounded-sm py-2 text-white font-medium">
+          <div className=" text-center">
+            <Link
+              to="/register"
+              type="primary"
+              size="large"
+              block
+              className="bg-black hover:bg-gray-800 rounded-sm py-4 px-6 text-white font-medium h-14" // Tăng padding và chiều cao
+            >
               Chưa có tài khoản?
-          </Link>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
