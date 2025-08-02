@@ -16,6 +16,7 @@ import RegisterLayout from './components/ui/register/layout';
 import RegisterPage from './components/ui/register/page';
 import './index.css';
 import HomePage from './pages/Home';
+import PaypalSuccess from './pages/paypal_success';
 import PayPalRedirect from './services/paypalRedirect';
 
 const App = () => {
@@ -28,12 +29,13 @@ const App = () => {
         <main className="pt-28 flex-1"> 
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path='/payment-success' element={<PaypalSuccess />} />
             <Route path="/paypal-redirect" element={<PayPalRedirect />} />
             {/* <Route path="/:parentCategoryName" element={<SubCategoryList />} /> */}
             <Route path="/:parentCategoryName" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/payment-success" element={<Favorites />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/payment" element={<PaymentMethod/>} />
             <Route path="/search" element={<Search />} />
