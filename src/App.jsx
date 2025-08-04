@@ -33,7 +33,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path='/payment-success' element={<PaypalSuccess />} />
-            <Route path='/cancel-paypal' element={<PaypalCancel />} />
+            <Route path='/paypal-cancel' element={<PaypalCancel />} />
             <Route path="/paypal-redirect" element={<PayPalRedirect />} />
             {/* <Route path="/:parentCategoryName" element={<SubCategoryList />} /> */}
             <Route path="/:parentCategoryName" element={<ProductList />} />
