@@ -17,7 +17,7 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axiosInstance.get('/Categories');
+        const response = await axiosInstance.get('/Categories/all');
         console.log('Categories response:', response.data);
         const categoriesData = response.data.items || response.data;
         if (!Array.isArray(categoriesData)) {
