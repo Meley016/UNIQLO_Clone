@@ -27,17 +27,15 @@ const CartPage = () => {
   useEffect(() => {
     const fetchColorsAndSizes = async () => {
       try {
-        const colorsResponse = await axiosInstance.get('/Colors');
-        if (!colorsResponse.data.items || !Array.isArray(colorsResponse.data.items)) {
-          throw new Error('Dữ liệu màu sắc không hợp lệ');
-        }
-        setColorsData(colorsResponse.data.items);
+        const colorsResponse = await axiosInstance.get('/Colors/all');
+        const colorsData = colorsResponse.data || []; // Trả về mảng trực tiếp từ IEnumerable
+        if (!Array.isArray(colorsData)) throw new Error('Dữ liệu màu sắc không hợp lệ');
+        setColorsData(colorsData);
 
-        const sizesResponse = await axiosInstance.get('/Sizes');
-        if (!sizesResponse.data.items || !Array.isArray(sizesResponse.data.items)) {
-          throw new Error('Dữ liệu kích cỡ không hợp lệ');
-        }
-        setSizesData(sizesResponse.data.items);
+        const sizesResponse = await axiosInstance.get('/Sizes/all');
+        const sizesData = sizesResponse.data || []; // Trả về mảng trực tiếp từ IEnumerable
+        if (!Array.isArray(sizesData)) throw new Error('Dữ liệu kích cỡ không hợp lệ');
+        setSizesData(sizesData);
       } catch (err) {
         console.error('Error fetching colors or sizes:', err);
       }
@@ -228,7 +226,7 @@ const CartPage = () => {
       customerId: 'user123', // Giả lập userId, cần thay bằng token nếu có
       customerPhone: selectedAddress.phone,
       customerAddress: selectedAddress.address,
-      items: cart.map(item => ({
+      items: cart.map((item) => ({
         productId: item.id,
         colorId: item.selectedColorId,
         sizeId: item.selectedSizeId,
@@ -381,7 +379,7 @@ const CartPage = () => {
             <button
               onClick={handleApplyCoupon}
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition flex items-center justify-center w-10 h-10"
-              style={{ color: 'white' }} // Đảm bảo màu chữ trắng
+              style={{ color: 'white' }}
             >
               ✓
             </button>
@@ -390,7 +388,7 @@ const CartPage = () => {
             )}
           </div>
 
-          {/* Address Selection (No outer div) */}
+          {/* Address Selection */}
           {addresses.length === 0 ? (
             <p className="text-sm ">Chưa có địa chỉ nào được lưu.</p>
           ) : (

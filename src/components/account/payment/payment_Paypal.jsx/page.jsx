@@ -4,11 +4,11 @@ import axiosInstance from '../../../../utils/axios';
 
 const PaypalCheckout = () => {
   const { state } = useLocation();
-  const { cart, total } = state || { cart: [], total: 0 };
+  const { cart, total, selectedAddress, orderData } = state || { cart: [], total: 0, selectedAddress: null, orderData: {} };
   const [shippingInfo, setShippingInfo] = useState({
-    fullName: '',
-    address: '',
-    phone: '',
+    fullName: selectedAddress?.fullName || '',
+    address: selectedAddress?.address || '',
+    phone: selectedAddress?.phone || '',
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -36,18 +36,16 @@ const PaypalCheckout = () => {
 
     try {
       const order = {
-        customerID: shippingInfo.fullName,
+        customerId: shippingInfo.fullName, // Đổi customerID thành customerId
         customerPhone: shippingInfo.phone,
         customerAddress: shippingInfo.address,
-        price: total,
         items: cart.map((item) => ({
           productId: item.id,
           colorId: item.selectedColorId,
           sizeId: item.selectedSizeId,
           quantity: item.quantity,
-          categoryId: item.categoryId,
         })),
-        payingStatus: 'pending',
+        payingStatus: 'pending', // Đặt trạng thái mặc định theo backend
       };
 
       const response = await axiosInstance.post('/Orders', order);
