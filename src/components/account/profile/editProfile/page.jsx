@@ -1,25 +1,25 @@
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
-import axiosInstance from '../../../../utils/axios'; // Điều chỉnh đường dẫn theo cấu trúc dự án
+import axiosInstance from '../../../../utils/axios';
 
 export default function EditProfileSection() {
   const [formData, setFormData] = useState({
     email: '',
     birthdate: '',
-    gender: 'male',
+    gender: 'Male', // Mặc định theo enum Gender
   });
   const [loading, setLoading] = useState(true);
-  const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
+  const _id = localStorage.getItem('_id');
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axiosInstance.get(`/Customer/${userId}`);
+        const response = await axiosInstance.get(`/Customer/${_id}`);
         const user = response.data;
         setFormData({
-          email: user.email || '',
-          birthdate: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : '',
-          gender: user.gender || 'male',
+          email: user.Email || '',
+          birthdate: user.CreatedAt ? new Date(user.CreatedAt).toISOString().split('T')[0] : '',
+          gender: user.Gender || 'Male', // Sử dụng enum Gender
         });
       } catch (error) {
         console.error('Lỗi khi lấy thông tin hồ sơ:', error);
@@ -29,13 +29,13 @@ export default function EditProfileSection() {
       }
     };
 
-    if (userId) {
+    if (_id) {
       fetchUserProfile();
     } else {
       console.error('Không tìm thấy userId trong localStorage');
       setLoading(false);
     }
-  }, [userId]);
+  }, [_id]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,11 +45,11 @@ export default function EditProfileSection() {
     e.preventDefault();
     try {
       const updates = {
-        email: formData.email,
-        createdAt: formData.birthdate ? new Date(formData.birthdate).toISOString() : undefined,
-        gender: formData.gender,
+        Email: formData.email,
+        CreatedAt: formData.birthdate ? new Date(formData.birthdate).toISOString() : undefined,
+        Gender: formData.gender,
       };
-      await axiosInstance.patch(`/Customer/${userId}`, updates);
+      await axiosInstance.patch(`/Customer/${_id}`, updates);
       message.success('Cập nhật hồ sơ thành công!');
     } catch (error) {
       console.error('Lỗi khi cập nhật hồ sơ:', error);
@@ -91,9 +91,9 @@ export default function EditProfileSection() {
             onChange={handleChange}
             className="w-full p-2 border rounded"
           >
-            <option value="male">Nam</option>
-            <option value="female">Nữ</option>
-            <option value="other">Khác</option>
+            <option value="Male">Nam</option>
+            <option value="Female">Nữ</option>
+            <option value="Undefined">Khác</option>
           </select>
         </div>
         <button

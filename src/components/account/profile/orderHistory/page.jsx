@@ -1,57 +1,91 @@
 import { useEffect, useState } from 'react';
-import axiosInstance from '../../../../utils/axios';
 
 export default function OrderHistorySection() {
   const [orderHistory, setOrderHistory] = useState([]);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-  const userId = 'user123'; // Giả lập userId, thay bằng token nếu có
+
+  // Lấy userId từ storage
+  const getUserIdFromStorage = () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Token payload:', payload);
+        return payload.nameid || null;
+      } catch (e) {
+        console.error('Lỗi khi phân tích token:', e);
+        return null;
+      }
+    }
+    const storedId = localStorage.getItem('_id');
+    if (storedId) {
+      console.log('Sử dụng _id từ storage:', storedId);
+      return storedId;
+    }
+    console.log('Không tìm thấy token hoặc _id trong localStorage');
+    return null;
+  };
+
+  const userId = getUserIdFromStorage();
+
+  // Lấy thông tin user từ localStorage
+  const getUserInfo = () => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return {
+      CustomerName: user.CustomerName || 'Unknown',
+      PhoneNumber: user.PhoneNumber || '0901234567',
+    };
+  };
+
+  const userInfo = getUserInfo();
 
   // Các trạng thái đơn hàng
   const orderStatuses = [
-    { step: 0, name: 'Chờ xác nhận', icon: '⏳' },
-    { step: 1, name: 'Đã xác nhận', icon: '✅' },
-    { step: 2, name: 'Đang đóng gói', icon: '📦' },
-    { step: 3, name: 'Đang chuyển đến đơn vị vận chuyển', icon: '🚚' },
-    { step: 4, name: 'Đang trên đường giao', icon: '🚛' },
-    { step: 5, name: 'Đã nhận', icon: '🏠' },
+    { step: 0, name: 'Chờ xác nhận', icon: '⏳', status: 'pending' },
+    { step: 1, name: 'Đã xác nhận', icon: '✅', status: 'confirmed' },
+    { step: 2, name: 'Đang đóng gói', icon: '📦', status: 'packaging' },
+    { step: 3, name: 'Đang chuyển đến đơn vị vận chuyển', icon: '🚚', status: 'shipping' },
+    { step: 4, name: 'Đang trên đường giao', icon: '🚛', status: 'delivering' },
+    { step: 5, name: 'Đã nhận', icon: '🏠', status: 'delivered' },
   ];
 
-  // Lấy dữ liệu từ API và localStorage
+  // Lấy cart từ localStorage và tạo orderHistory
   useEffect(() => {
-    const fetchOrderHistory = async () => {
-      try {
-        const response = await axiosInstance.get(`/Orders/user/${userId}`, { params: { page: 1, pageSize: 10 } });
-        if (response.data.orders && Array.isArray(response.data.orders)) {
-          const orders = response.data.orders.map((order) => ({
-            ...order,
-            timestamp: order.CreatedAt,
-            paymentMethod: { method: order.PayingMethod || 'COD' }, // Lấy từ backend
-            shippingInfo: {
-              fullName: order.CustomerName || order.CustomerId, // Điều chỉnh theo backend
-              address: order.CustomerAddress,
-              phone: order.CustomerPhone,
-            },
-            items: order.Items.map((item) => ({
-              ...item,
-              image: '/default-image.jpg', // Giả lập, cần lấy từ sản phẩm
-              name: item.ProductName || 'Unknown Product',
-            })),
-            Price: order.TotalAmount || 0, // Lấy từ backend
-          }));
-          setOrderHistory(orders);
-          localStorage.setItem('orderHistory', JSON.stringify(orders));
-        } else {
-          throw new Error('Dữ liệu lịch sử đơn hàng không hợp lệ');
-        }
-      } catch (err) {
-        console.error('Error fetching order history:', err);
-        const savedOrders = localStorage.getItem('orderHistory');
-        if (savedOrders) {
-          setOrderHistory(JSON.parse(savedOrders));
-        }
-      }
-    };
-    fetchOrderHistory();
+    if (!userId) {
+      console.log('Không tìm thấy userId, không thể tạo lịch sử đơn hàng.');
+      return;
+    }
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    if (cart.length > 0) {
+      // Tạo orderHistory từ cart
+      const newOrder = {
+        id: `ORDER-${Date.now()}`,
+        CustomerID: userId,
+        CustomerPhone: userInfo.PhoneNumber,
+        CustomerAddress: '123 Duong So 1, Q1, TP.HCM', // Giả lập, cần lấy từ addresses
+        payingStatus: 'pending',
+        deliveryStatus: 'pending',
+        CreatedAt: new Date().toISOString(),
+        items: cart.map((item) => ({
+          ProductId: item.id,
+          ColorId: item.selectedColorId,
+          SizeId: item.selectedSizeId,
+          Quantity: item.quantity,
+          CategoryId: item.categoryId,
+        })),
+        Price: cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0),
+        PayPalOrderId: null,
+      };
+
+      const currentHistory = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+      const updatedHistory = [newOrder, ...currentHistory];
+      setOrderHistory(updatedHistory);
+      localStorage.setItem('orderHistory', JSON.stringify(updatedHistory));
+    } else {
+      const savedOrders = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+      setOrderHistory(savedOrders);
+    }
   }, [userId]);
 
   // Hiển thị timeline khi bấm theo dõi
@@ -62,6 +96,16 @@ export default function OrderHistorySection() {
   // Đóng modal
   const handleCloseModal = () => {
     setSelectedOrderId(null);
+  };
+
+  // Xác định trạng thái hiện tại của đơn hàng
+  const getOrderStatusStep = (order) => {
+    if (order.payingStatus === 'cancelled') return -1;
+    if (order.deliveryStatus === 'delivered') return 5;
+    if (order.deliveryStatus === 'delivering') return 4;
+    if (order.deliveryStatus === 'shipping') return 3;
+    if (order.payingStatus === 'paid') return 2;
+    return 0;
   };
 
   if (orderHistory.length === 0) {
@@ -80,42 +124,38 @@ export default function OrderHistorySection() {
         {orderHistory.map((order) => (
           <div key={order.id} className="border p-4 rounded">
             <p><strong>Mã đơn hàng:</strong> {order.id}</p>
-            <p><strong>Thời gian:</strong> {new Date(order.timestamp).toLocaleString('vi-VN')}</p>
+            <p><strong>Thời gian:</strong> {new Date(order.CreatedAt).toLocaleString('vi-VN')}</p>
             <p>
               <strong>Phương thức thanh toán:</strong>{' '}
-              {order.paymentMethod.method === 'COD'
-                ? `COD - ${order.shippingInfo.fullName}`
-                : order.paymentMethod.method === 'Paypal'
-                ? 'PayPal'
-                : 'Unknown'}
+              {order.PayPalOrderId ? 'PayPal' : 'COD'}
             </p>
             <p>
-              <strong>Thông tin giao hàng:</strong> {order.shippingInfo.fullName}, {order.shippingInfo.address},{' '}
-              {order.shippingInfo.phone}
+              <strong>Thông tin giao hàng:</strong> {userInfo.CustomerName}, {order.CustomerAddress},{' '}
+              {order.CustomerPhone}
             </p>
-            {order.coupon && (
-              <p>
-                <strong>Phiếu giảm giá:</strong> {order.coupon.code} - {order.coupon.description}
-              </p>
-            )}
             <p><strong>Tổng cộng:</strong> {order.Price.toLocaleString('vi-VN')} VND</p>
             <div className="mt-2">
               <p className="font-semibold">Sản phẩm:</p>
-              {order.items.map((item, index) => (
-                <div key={index} className="flex items-center mt-2">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-12 h-12 object-cover rounded mr-2"
-                  />
-                  <div>
-                    <p>{item.name}</p>
-                    <p className="text-sm text-gray-500">
-                      Màu sắc: {item.ColorId}, Kích cỡ: {item.SizeId}, Số lượng: {item.Quantity}
-                    </p>
+              {order.items.map((item, index) => {
+                const cartItem = JSON.parse(localStorage.getItem('cart') || '[]').find(
+                  (c) => c.id === item.ProductId
+                );
+                return (
+                  <div key={index} className="flex items-center mt-2">
+                    <img
+                      src={cartItem?.image || '/default-image.jpg'}
+                      alt={cartItem?.name || 'Unknown Product'}
+                      className="w-12 h-12 object-cover rounded mr-2"
+                    />
+                    <div>
+                      <p>{cartItem?.name || 'Unknown Product'}</p>
+                      <p className="text-sm text-gray-500">
+                        Màu sắc: {item.ColorId}, Kích cỡ: {item.SizeId}, Số lượng: {item.Quantity}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <button
               onClick={() => handleTrackOrder(order.id)}
@@ -136,7 +176,8 @@ export default function OrderHistorySection() {
               <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300"></div>
               {orderStatuses.map((status, index) => {
                 const order = orderHistory.find((o) => o.id === selectedOrderId);
-                const isActive = order && (order.status || 0) >= status.step; // Sử dụng status từ order
+                const currentStep = getOrderStatusStep(order);
+                const isActive = currentStep >= status.step;
                 return (
                   <div key={status.step} className="flex items-center mb-4 relative">
                     <div
@@ -172,5 +213,5 @@ export default function OrderHistorySection() {
         </div>
       )}
     </div>
-  ); 
+  );
 }

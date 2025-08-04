@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import ProfileSection from './profile/page';
-import CouponsSection from './coupons/page';
-import PurchaseHistorySection from './purchaseHistory/page';
-import OrderHistorySection from './orderHistory/page';
-import EditProfileSection from './editProfile/page';
-import AddressBookSection from './addressBook/page';
-import MessagesSection from './messages/page';
-import ChangePasswordSection from './changePassword/page';
+import { useState } from 'react';
 import PaymentMethod from '../payment/page';
+import AddressBookSection from './addressBook/page';
+import CancelMembershipSection from './cancelMembership/page';
+import ChangePasswordSection from './changePassword/page';
+import CouponsSection from './coupons/page';
+import EditProfileSection from './editProfile/page';
+import MessagesSection from './messages/page';
+import OrderHistorySection from './orderHistory/page';
+import ProfileSection from './profile/page';
+import PurchaseHistorySection from './purchaseHistory/page';
 
 export default function Profile() {
   const [activeSection, setActiveSection] = useState('profile');
