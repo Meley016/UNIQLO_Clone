@@ -23,61 +23,57 @@ const ProductDetail = () => {
   const [sizesData, setSizesData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch product details
-        const productResponse = await axiosInstance.get(`/Products/${id}`);
-        const productData = productResponse.data;
-        if (!productData) throw new Error('Sản phẩm không tồn tại');
-        console.log('Product data:', productData); // Debug toàn bộ dữ liệu sản phẩm
-        console.log('Product images:', productData.images); // Debug dữ liệu ảnh
-        setProduct(productData);
+  const fetchData = async () => {
+    try {
+      const productResponse = await axiosInstance.get(`/Products/${id}`);
+      const productData = productResponse.data;
+      if (!productData) throw new Error('Sản phẩm không tồn tại');
+      console.log('Product data:', productData);
+      console.log('Product images:', productData.images);
+      setProduct(productData);
 
-        // Fetch colors
-        const colorsResponse = await axiosInstance.get('/Colors');
-        if (!colorsResponse.data.items || !Array.isArray(colorsResponse.data.items)) {
-          throw new Error('Dữ liệu màu sắc không hợp lệ');
-        }
-        setColorsData(colorsResponse.data.items);
+      // Fetch all colors
+      const colorsResponse = await axiosInstance.get('/Colors/all');
+      const colorsData = colorsResponse.data || [];
+      if (!Array.isArray(colorsData)) throw new Error('Dữ liệu màu sắc không hợp lệ');
+      setColorsData(colorsData);
 
-        // Fetch sizes
-        const sizesResponse = await axiosInstance.get('/Sizes');
-        if (!sizesResponse.data.items || !Array.isArray(sizesResponse.data.items)) {
-          throw new Error('Dữ liệu kích cỡ không hợp lệ');
-        }
-        setSizesData(sizesResponse.data.items);
+      // Fetch all sizes
+      const sizesResponse = await axiosInstance.get('/Sizes/all');
+      const sizesData = sizesResponse.data || [];
+      if (!Array.isArray(sizesData)) throw new Error('Dữ liệu kích cỡ không hợp lệ');
+      setSizesData(sizesData);
 
-        // Fetch related products
-        const relatedResponse = await axiosInstance.get('/Products', {
-          params: { page: 1, pageSize: 100 },
-        });
-        if (!relatedResponse.data.items || !Array.isArray(relatedResponse.data.items)) {
-          throw new Error('Dữ liệu sản phẩm liên quan không hợp lệ');
-        }
-        const related = relatedResponse.data.items
-          .filter((p) => p.categoryId === productData.categoryId && p.id !== id)
-          .slice(0, 4);
-        setRelatedProducts(related);
+      // Fetch related products
+      const relatedResponse = await axiosInstance.get('/Products', {
+        params: { page: 1, pageSize: 100 },
+      });
+      const relatedData = relatedResponse.data.items || relatedResponse.data || [];
+      if (!Array.isArray(relatedData)) throw new Error('Dữ liệu sản phẩm liên quan không hợp lệ');
+      const related = relatedData
+        .filter((p) => p.categoryId === productData.categoryId && p.id !== id)
+        .slice(0, 4);
+      setRelatedProducts(related);
 
-        // Set default variant
-        const defaultVariant = productData.variants?.[0] || { colorId: null, sizeId: null };
-        const initialColorId = searchParams.get('colorId') || defaultVariant.colorId;
-        const initialSizeId = searchParams.get('sizeId') || defaultVariant.sizeId;
-        setSelectedVariant({
-          colorId: initialColorId,
-          sizeId: initialSizeId,
-        });
+      // Set default variant
+      const defaultVariant = productData.variants?.[0] || { colorId: null, sizeId: null };
+      const initialColorId = searchParams.get('colorId') || defaultVariant.colorId;
+      const initialSizeId = searchParams.get('sizeId') || defaultVariant.sizeId;
+      setSelectedVariant({
+        colorId: initialColorId,
+        sizeId: initialSizeId,
+      });
 
-        setLoading(false);
-      } catch (err) {
-        console.error('Lỗi:', err);
-        setError(err.message || 'Đã xảy ra lỗi khi tải dữ liệu');
-        setLoading(false);
-      }
-    };
+      setLoading(false);
+    } catch (err) {
+      console.error('Lỗi:', err);
+      setError(err.message || 'Đã xảy ra lỗi khi tải dữ liệu');
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, [id, searchParams]);
+  fetchData();
+}, [id, searchParams]);
 
   useEffect(() => {
     if (product && selectedVariant?.colorId && product.variants) {
@@ -177,7 +173,7 @@ const ProductDetail = () => {
   const handleThumbnailClick = (index) => {
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(index);
-      console.log('Thumbnail clicked, navigating to slide:', index); // Debug điều hướng slider
+      console.log('Thumbnail clicked, navigating to slide:', index);
     }
   };
 

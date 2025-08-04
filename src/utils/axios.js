@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 const getBaseUrl = () => {
-  return import.meta.env.VITE_API_URL || '/api'; 
+  return import.meta.env.VITE_API_URL || '/api';
 };
 
 const axiosInstance = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 30000, 
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -14,8 +14,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken'); // Sửa thành 'accessToken'
-    if (token) {
+    const token = localStorage.getItem('accessToken');
+    // Chỉ thêm Authorization cho các endpoint yêu cầu xác thực (ví dụ: /Products, /Account/*)
+    if (token && !config.url?.startsWith('/Colors') && !config.url?.startsWith('/Sizes')) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -33,7 +34,9 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       console.error('Không có quyền truy cập. Vui lòng đăng nhập lại.');
-      // window.location.href = '/login';
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('tokenExpiryTime'); // Nếu có
+      // window.location.href = '/login'; // Thêm chuyển hướng
     }
     console.error('Response error:', error);
     return Promise.reject(error.response?.data?.message || 'Đã xảy ra lỗi');
