@@ -17,26 +17,27 @@ const ProductList = ({ categoryId }) => {
       setLoading(true);
       setError(null);
       try {
-        console.log('Fetching all products with params:', {
-          page,
-          pageSize: 100, // Lấy số lượng lớn để lọc
-          categoryId: currentCategoryId || 'none',
-        });
         const response = await axiosInstance.get('/Products', {
           params: {
             page,
-            pageSize: 100, // Lấy đủ sản phẩm để lọc
+            pageSize: 100,
           },
         });
-        console.log('Products response:', response.data);
+
         if (!response.data.items || !Array.isArray(response.data.items)) {
           throw new Error('Dữ liệu sản phẩm không hợp lệ hoặc không phải mảng');
         }
-        // Lọc sản phẩm theo categoryId nếu có
+      const getColorStyle = (colorId) => {
+        const color = colorsData.find((c) => c.id === colorId);
+        return {
+          backgroundColor: color?.colors_code || '#000000',
+          name: color?.colors_name || 'Không xác định',
+        };
+      };
         const filteredProducts = currentCategoryId
           ? response.data.items.filter((product) => product.categoryId === currentCategoryId)
           : response.data.items;
-        // Phân trang trong frontend
+
         const pageSize = 12;
         const startIndex = (page - 1) * pageSize;
         const paginatedProducts = filteredProducts.slice(startIndex, startIndex + pageSize);
@@ -44,7 +45,6 @@ const ProductList = ({ categoryId }) => {
         setTotalPages(Math.ceil(filteredProducts.length / pageSize) || 1);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching products:', err);
         setError(err.message || 'Đã xảy ra lỗi khi lấy danh sách sản phẩm');
         setLoading(false);
       }
@@ -69,26 +69,32 @@ const ProductList = ({ categoryId }) => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-xl font-bold mb-4 text-center">
+    <div className="container mx-auto max-w-screen-xl px-4 py-8">
+      <h2 className="text-xl font-bold mb-6 text-center">
         {currentCategoryId ? 'Sản phẩm' : 'Tất cả sản phẩm'}
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
-        {products.map((product) => (
-          <div key={product.id} className="px-2">
-            <Link to={`/product/${product.id}`}>
-              <ProductCard
-                id={product.id}
-                image={product.images?.[0] || '/default-image.jpg'}
-                name={product.name}
-                code={product.id}
-                price={product.price}
-              />
-            </Link>
-          </div>
-        ))}
+
+      {/* GRID sản phẩm */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {products.map((product) => (
+      <div key={product.id} className="px-2">
+        <Link to={`/product/${product.id}`}>
+          <ProductCard
+            id={product.id}
+            image={product.images?.[0] || '/default-image.jpg'}
+            name={product.name}
+            code={product.id}
+            price={product.price}
+            colorsData={product.colors} // Thêm dòng này
+          />
+        </Link>
       </div>
-      <div className="flex justify-center mt-6">
+    ))}
+  </div>
+
+
+      {/* PHÂN TRANG */}
+      <div className="flex justify-center mt-8">
         <button
           onClick={() => setPage(page - 1)}
           disabled={page === 1}
