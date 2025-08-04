@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../../utils/axios';
 
@@ -12,6 +12,30 @@ const CODCheckout = () => {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Lấy _id (nameid) từ accessToken
+  const getUserIdFromStorage = () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Token payload:', payload); // Debug
+        return payload.nameid || null; // Lấy nameid từ token
+      } catch (e) {
+        console.error('Lỗi khi phân tích token:', e);
+      }
+    }
+    console.log('Không tìm thấy token trong localStorage');
+    return null;
+  };
+
+  useEffect(() => {
+    const userId = getUserIdFromStorage();
+    if (!userId) {
+      alert('Vui lòng đăng nhập để đặt hàng!');
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleShippingInfoChange = (e) => {
     const { name, value } = e.target;
@@ -34,9 +58,17 @@ const CODCheckout = () => {
       return;
     }
 
+    const customerId = getUserIdFromStorage();
+    if (!customerId) {
+      setError('Vui lòng đăng nhập để đặt hàng!');
+      alert('Vui lòng đăng nhập để đặt hàng!');
+      navigate('/login');
+      return;
+    }
+
     try {
       const order = {
-        customerId: shippingInfo.fullName, // Đổi customerID thành customerId
+        customerId, // Sử dụng nameid từ token
         customerPhone: shippingInfo.phone,
         customerAddress: shippingInfo.address,
         items: cart.map((item) => ({
@@ -44,18 +76,21 @@ const CODCheckout = () => {
           colorId: item.selectedColorId,
           sizeId: item.selectedSizeId,
           quantity: item.quantity,
+          categoryId: item.categoryId,
         })),
-        payingStatus: 'pending', // Đặt trạng thái mặc định theo backend
+        payingStatus: 'pending',
       };
 
+      console.log('Sending order:', order); // Debug dữ liệu gửi đi
       const response = await axiosInstance.post('/Orders', order);
+      console.log('Response:', response.data); // Debug phản hồi
       alert(`Đặt hàng thành công với COD! Mã đơn hàng: ${response.data.orderId}`);
       localStorage.removeItem('cart');
       navigate('/order-history');
     } catch (err) {
-      console.error('Error placing COD order:', err);
-      setError('Đã xảy ra lỗi khi đặt hàng COD: ' + err.response?.data?.message || err.message);
-      alert('Đã xảy ra lỗi khi đặt hàng COD: ' + err.message);
+      console.error('Error placing COD order:', err.response ? err.response.data : err);
+      setError('Đã xảy ra lỗi khi đặt hàng COD: ' + (err.response?.data?.message));
+      alert('Đã xảy ra lỗi khi đặt hàng COD: ' + (err.response?.data?.message));
     }
   };
 

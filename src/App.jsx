@@ -3,6 +3,7 @@ import CartPage from './components/account/cart/cart';
 import PaymentMethod from './components/account/payment/page';
 import CODCheckout from './components/account/payment/payment_COD.jsx/page';
 import PaypalCheckout from './components/account/payment/payment_Paypal.jsx/page';
+import CapturePaypal from './components/account/payment/paypal_capture/page';
 import Profile from './components/account/profile/page';
 import AppFooter from './components/layout/Footer';
 import AppHeader from './components/layout/Header';
@@ -43,6 +44,7 @@ const App = () => {
             <Route path='/payment-COD' element={<CODCheckout/>} />
             <Route path='/payment-Paypal' element={<PaypalCheckout/>} />
             <Route path="/searchresults" element={<SearchResults/>} />
+            <Route path='/paypal-capture' element={<CapturePaypal/>} />
             <Route
               path="/login"
               element={

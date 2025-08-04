@@ -24,7 +24,7 @@ const RegisterPage = () => {
 
       // Chuẩn bị dữ liệu theo mô hình Users
       const registrationData = {
-        customerName: values.customerName || undefined,
+        customerName: values.customerName,
         email: values.email,
         password: values.password,
         age: age,

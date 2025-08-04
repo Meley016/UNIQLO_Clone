@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axiosInstance from '../../../../utils/axios'; // Điều chỉnh đường dẫn phù hợp
+import axiosInstance from '../../../../utils/axios';
 
 export default function OrderHistorySection() {
   const [orderHistory, setOrderHistory] = useState([]);
@@ -16,7 +16,7 @@ export default function OrderHistorySection() {
     { step: 5, name: 'Đã nhận', icon: '🏠' },
   ];
 
-  // Lấy dữ liệu từ API
+  // Lấy dữ liệu từ API và localStorage
   useEffect(() => {
     const fetchOrderHistory = async () => {
       try {
@@ -24,18 +24,19 @@ export default function OrderHistorySection() {
         if (response.data.orders && Array.isArray(response.data.orders)) {
           const orders = response.data.orders.map((order) => ({
             ...order,
-            timestamp: order.CreatedAt, // Đồng bộ với backend
-            paymentMethod: { method: 'COD' }, // Giả lập, cần lấy từ backend nếu có
+            timestamp: order.CreatedAt,
+            paymentMethod: { method: order.PayingMethod || 'COD' }, // Lấy từ backend
             shippingInfo: {
-              fullName: order.CustomerID,
+              fullName: order.CustomerName || order.CustomerId, // Điều chỉnh theo backend
               address: order.CustomerAddress,
               phone: order.CustomerPhone,
             },
             items: order.Items.map((item) => ({
               ...item,
-              image: '/default-image.jpg', // Giả lập, cần lấy từ sản phẩm nếu có
+              image: '/default-image.jpg', // Giả lập, cần lấy từ sản phẩm
               name: item.ProductName || 'Unknown Product',
             })),
+            Price: order.TotalAmount || 0, // Lấy từ backend
           }));
           setOrderHistory(orders);
           localStorage.setItem('orderHistory', JSON.stringify(orders));
@@ -135,7 +136,7 @@ export default function OrderHistorySection() {
               <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300"></div>
               {orderStatuses.map((status, index) => {
                 const order = orderHistory.find((o) => o.id === selectedOrderId);
-                const isActive = order && order.status >= status.step;
+                const isActive = order && (order.status || 0) >= status.step; // Sử dụng status từ order
                 return (
                   <div key={status.step} className="flex items-center mb-4 relative">
                     <div
@@ -163,7 +164,7 @@ export default function OrderHistorySection() {
             </div>
             <button
               onClick={handleCloseModal}
-              className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-white-600 transition"
+              className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
             >
               Đóng
             </button>
@@ -171,5 +172,5 @@ export default function OrderHistorySection() {
         </div>
       )}
     </div>
-  );
+  ); 
 }
