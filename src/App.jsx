@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CartPage from './components/account/cart/cart';
-import CheckoutPage from './components/account/payment/checkoutPayment/page';
 import PaymentMethod from './components/account/payment/page';
+import CODCheckout from './components/account/payment/payment_COD.jsx/page';
+import PaypalCheckout from './components/account/payment/payment_Paypal.jsx/page';
 import Profile from './components/account/profile/page';
 import AppFooter from './components/layout/Footer';
 import AppHeader from './components/layout/Header';
@@ -39,7 +40,8 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/payment" element={<PaymentMethod/>} />
             <Route path="/search" element={<Search />} />
-            <Route path='/paymentprocess' element={<CheckoutPage/>} />
+            <Route path='/payment-COD' element={<CODCheckout/>} />
+            <Route path='/payment-Paypal' element={<PaypalCheckout/>} />
             <Route path="/searchresults" element={<SearchResults/>} />
             <Route
               path="/login"
