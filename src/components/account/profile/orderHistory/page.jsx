@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { useEffect, useState } from 'react';
+import axiosInstance from '../../../../utils/axios'; // Điều chỉnh đường dẫn phù hợp
 
 export default function OrderHistorySection() {
   const [orderHistory, setOrderHistory] = useState([]);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const userId = 'user123'; // Giả lập userId, thay bằng token nếu có
 
   // Các trạng thái đơn hàng
   const orderStatuses = [
@@ -15,20 +16,42 @@ export default function OrderHistorySection() {
     { step: 5, name: 'Đã nhận', icon: '🏠' },
   ];
 
-  // Lấy dữ liệu từ localStorage
+  // Lấy dữ liệu từ API
   useEffect(() => {
-    const savedOrders = localStorage.getItem('orderHistory');
-    if (savedOrders) {
-      const orders = JSON.parse(savedOrders);
-      // Mô phỏng trạng thái nếu chưa có (cho các đơn hàng cũ)
-      const updatedOrders = orders.map((order) => ({
-        ...order,
-        status: order.status !== undefined ? order.status : Math.floor(Math.random() * 6), // Random status từ 0-5
-      }));
-      setOrderHistory(updatedOrders);
-      localStorage.setItem('orderHistory', JSON.stringify(updatedOrders));
-    }
-  }, []);
+    const fetchOrderHistory = async () => {
+      try {
+        const response = await axiosInstance.get(`/Orders/user/${userId}`, { params: { page: 1, pageSize: 10 } });
+        if (response.data.orders && Array.isArray(response.data.orders)) {
+          const orders = response.data.orders.map((order) => ({
+            ...order,
+            timestamp: order.CreatedAt, // Đồng bộ với backend
+            paymentMethod: { method: 'COD' }, // Giả lập, cần lấy từ backend nếu có
+            shippingInfo: {
+              fullName: order.CustomerID,
+              address: order.CustomerAddress,
+              phone: order.CustomerPhone,
+            },
+            items: order.Items.map((item) => ({
+              ...item,
+              image: '/default-image.jpg', // Giả lập, cần lấy từ sản phẩm nếu có
+              name: item.ProductName || 'Unknown Product',
+            })),
+          }));
+          setOrderHistory(orders);
+          localStorage.setItem('orderHistory', JSON.stringify(orders));
+        } else {
+          throw new Error('Dữ liệu lịch sử đơn hàng không hợp lệ');
+        }
+      } catch (err) {
+        console.error('Error fetching order history:', err);
+        const savedOrders = localStorage.getItem('orderHistory');
+        if (savedOrders) {
+          setOrderHistory(JSON.parse(savedOrders));
+        }
+      }
+    };
+    fetchOrderHistory();
+  }, [userId]);
 
   // Hiển thị timeline khi bấm theo dõi
   const handleTrackOrder = (orderId) => {
@@ -56,14 +79,14 @@ export default function OrderHistorySection() {
         {orderHistory.map((order) => (
           <div key={order.id} className="border p-4 rounded">
             <p><strong>Mã đơn hàng:</strong> {order.id}</p>
-            <p><strong>Thời gian:</strong> {order.timestamp}</p>
+            <p><strong>Thời gian:</strong> {new Date(order.timestamp).toLocaleString('vi-VN')}</p>
             <p>
               <strong>Phương thức thanh toán:</strong>{' '}
-              {order.paymentMethod.method === 'ewallet'
-                ? `Ví ${order.paymentMethod.data.walletType} - ${order.paymentMethod.data.phone}`
-                : order.paymentMethod.method === 'bankcard'
-                ? `Thẻ ****${order.paymentMethod.data.cardNumber.slice(-4)}`
-                : `COD - ${order.paymentMethod.data.fullName}`}
+              {order.paymentMethod.method === 'COD'
+                ? `COD - ${order.shippingInfo.fullName}`
+                : order.paymentMethod.method === 'Paypal'
+                ? 'PayPal'
+                : 'Unknown'}
             </p>
             <p>
               <strong>Thông tin giao hàng:</strong> {order.shippingInfo.fullName}, {order.shippingInfo.address},{' '}
@@ -74,7 +97,7 @@ export default function OrderHistorySection() {
                 <strong>Phiếu giảm giá:</strong> {order.coupon.code} - {order.coupon.description}
               </p>
             )}
-            <p><strong>Tổng cộng:</strong> {order.total.toLocaleString('vi-VN')} VND</p>
+            <p><strong>Tổng cộng:</strong> {order.Price.toLocaleString('vi-VN')} VND</p>
             <div className="mt-2">
               <p className="font-semibold">Sản phẩm:</p>
               {order.items.map((item, index) => (
@@ -87,8 +110,7 @@ export default function OrderHistorySection() {
                   <div>
                     <p>{item.name}</p>
                     <p className="text-sm text-gray-500">
-                      Màu sắc: {item.selectedColorId}, Kích cỡ: {item.selectedSizeId}, Số lượng:{' '}
-                      {item.quantity}
+                      Màu sắc: {item.ColorId}, Kích cỡ: {item.SizeId}, Số lượng: {item.Quantity}
                     </p>
                   </div>
                 </div>
