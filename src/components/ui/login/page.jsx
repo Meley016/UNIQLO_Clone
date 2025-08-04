@@ -16,14 +16,26 @@ const LoginPage = () => {
         password: values.password,
       });
 
-      const { email, accessToken, expriesIn } = response.data;
+      const { email, accessToken, expiresIn } = response.data;
 
-      console.log('Đăng nhập thành công:', { email, accessToken, expriesIn });
+      // Trích xuất payload từ token
+      const payload = JSON.parse(atob(accessToken.split('.')[1]));
+      const id = payload.nameid; // Lấy _id từ nameid trong token
 
-      // Lưu token và email vào localStorage
+      // Lấy thông tin chi tiết từ /Customer/by-email (tuỳ chọn)
+      const customerResponse = await axiosInstance.get(`/Customer`);
+      const customer = customerResponse.data;
+      if (customer) {
+        console.log('Customer details:', customer);
+      }
+
+      console.log('Đăng nhập thành công:', { email, accessToken, expiresIn, id });
+
+      // Lưu token, email, _id, và expiresIn vào localStorage
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('userEmail', email);
-      localStorage.setItem('tokenexpriesInn', expriesIn);
+      localStorage.setItem('tokenExpiresIn', expiresIn);
+      localStorage.setItem('_id', id); // Lưu _id
 
       message.success('Đăng nhập thành công!');
       navigate('/');
@@ -31,7 +43,7 @@ const LoginPage = () => {
       // Trigger sự kiện loginStatusChanged
       window.dispatchEvent(new Event('loginStatusChanged'));
     } catch (error) {
-      const errorMessage = error || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
+      const errorMessage = error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
       message.error(errorMessage);
       console.error('Lỗi đăng nhập:', error);
     } finally {
@@ -113,13 +125,13 @@ const LoginPage = () => {
               Hãy tạo tài khoản ngay! Bạn có thể tạo một tài khoản đặc biệt dành cho bạn với những ưu đãi hấp dẫn hoặc tạo tài khoản đơn giản cho nhân viên của bạn.
             </p>
           </div>
-          <div className=" text-center">
+          <div className="text-center">
             <Link
               to="/register"
               type="primary"
               size="large"
               block
-              className="bg-black hover:bg-gray-800 rounded-sm py-4 px-6 text-white font-medium h-14" // Tăng padding và chiều cao
+              className="bg-black hover:bg-gray-800 rounded-sm py-4 px-6 text-white font-medium h-14"
             >
               Chưa có tài khoản?
             </Link>

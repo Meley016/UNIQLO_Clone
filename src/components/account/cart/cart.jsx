@@ -21,23 +21,55 @@ const CartPage = () => {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [newAddress, setNewAddress] = useState({ fullName: '', phone: '', address: '' });
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // Lấy _id từ storage (ưu tiên token, nếu không dùng _id từ localStorage)
+  const getUserIdFromStorage = () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Token payload:', payload);
+        return payload.nameid || null; // Lấy nameid từ token (là _id)
+      } catch (e) {
+        console.error('Lỗi khi phân tích token:', e);
+        setError('Lỗi khi phân tích token. Vui lòng đăng nhập lại!');
+      }
+    }
+    const storedId = localStorage.getItem('_id');
+    if (storedId) {
+      console.log('Sử dụng _id từ storage:', storedId);
+      return storedId;
+    }
+    console.log('Không tìm thấy token hoặc _id trong localStorage');
+    setError('Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại!');
+    return null;
+  };
 
   // Fetch colors and sizes
   useEffect(() => {
     const fetchColorsAndSizes = async () => {
       try {
         const colorsResponse = await axiosInstance.get('/Colors/all');
-        const colorsData = colorsResponse.data || []; // Trả về mảng trực tiếp từ IEnumerable
+        const colorsData = colorsResponse.data || [];
         if (!Array.isArray(colorsData)) throw new Error('Dữ liệu màu sắc không hợp lệ');
         setColorsData(colorsData);
+      } catch (err) {
+        const errorMessage = err.response?.data?.message || 'Lỗi khi tải màu sắc. Vui lòng thử lại!';
+        setError(errorMessage);
+        console.error('Error fetching colors:', err);
+      }
 
+      try {
         const sizesResponse = await axiosInstance.get('/Sizes/all');
-        const sizesData = sizesResponse.data || []; // Trả về mảng trực tiếp từ IEnumerable
+        const sizesData = sizesResponse.data || [];
         if (!Array.isArray(sizesData)) throw new Error('Dữ liệu kích cỡ không hợp lệ');
         setSizesData(sizesData);
       } catch (err) {
-        console.error('Error fetching colors or sizes:', err);
+        const errorMessage = err.response?.data?.message || 'Lỗi khi tải kích cỡ. Vui lòng thử lại!';
+        setError(errorMessage);
+        console.error('Error fetching sizes:', err);
       }
     };
     fetchColorsAndSizes();
@@ -100,6 +132,8 @@ const CartPage = () => {
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
       } catch (err) {
+        const errorMessage = err.response?.data?.message || 'Lỗi khi tải giỏ hàng. Vui lòng thử lại!';
+        setError(errorMessage);
         console.error('Error fetching cart products:', err);
       }
     };
@@ -128,6 +162,8 @@ const CartPage = () => {
           .slice(0, 6);
         setRelatedProducts(related);
       } catch (err) {
+        const errorMessage = err.response?.data?.message || 'Lỗi khi tải sản phẩm liên quan. Vui lòng thử lại!';
+        setError(errorMessage);
         console.error('Error fetching related products:', err);
         setRelatedProducts([]);
       }
@@ -222,8 +258,16 @@ const CartPage = () => {
       alert('Vui lòng chọn phương thức thanh toán!');
       return;
     }
+    const customerId = getUserIdFromStorage(); // Sử dụng hàm để lấy _id
+    if (!customerId) {
+      setError('Vui lòng đăng nhập để đặt hàng!');
+      alert('Vui lòng đăng nhập để đặt hàng!');
+      navigate('/login');
+      return;
+    }
+
     const orderData = {
-      customerId: 'user123', // Giả lập userId, cần thay bằng token nếu có
+      customerId,
       customerPhone: selectedAddress.phone,
       customerAddress: selectedAddress.address,
       items: cart.map((item) => ({
@@ -231,6 +275,7 @@ const CartPage = () => {
         colorId: item.selectedColorId,
         sizeId: item.selectedSizeId,
         quantity: item.quantity,
+        categoryId: item.categoryId,
       })),
     };
     navigate(paymentMethod === 'COD' ? '/payment-COD' : '/payment-Paypal', {
@@ -243,6 +288,7 @@ const CartPage = () => {
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-6">Giỏ hàng</h2>
         <div className="text-center py-8 text-gray-500">Không có sản phẩm nào trong giỏ hàng của bạn.</div>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
         <button
           className="mt-4 bg-black text-white py-3 px-6 rounded hover:bg-gray-800 transition"
           onClick={() => navigate('/')}
@@ -344,6 +390,7 @@ const CartPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-6">Giỏ hàng</h2>
+      {error && <div className="text-red-500 mb-4">{error}</div>}
       <div className="flex flex-col md:flex-row gap-8">
         <div className="w-full md:w-1/3 space-y-4">
           <div className="bg-white p-6 rounded-lg shadow-md">
@@ -553,7 +600,7 @@ const CartPage = () => {
       {showAddressModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg font-semibold mb-4">Thêm địa chỉ mới</h3>
+            <h2 className="text-lg font-semibold mb-4">Thêm địa chỉ mới</h2>
             <form onSubmit={handleAddAddress}>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../../utils/axios';
 
@@ -12,6 +12,38 @@ const PaypalCheckout = () => {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Lấy _id từ storage
+  const getUserIdFromStorage = () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Token payload:', payload);
+        return payload.nameid || null;
+      } catch (e) {
+        console.error('Lỗi khi phân tích token:', e);
+        setError('Lỗi khi phân tích token. Vui lòng đăng nhập lại!');
+        return null;
+      }
+    }
+    const storedId = localStorage.getItem('_id');
+    if (storedId) {
+      console.log('Sử dụng _id từ storage:', storedId);
+      return storedId;
+    }
+    console.log('Không tìm thấy token hoặc _id trong localStorage');
+    setError('Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại!');
+    return null;
+  };
+
+  useEffect(() => {
+    const userId = getUserIdFromStorage();
+    if (!userId) {
+      alert('Vui lòng đăng nhập để đặt hàng!');
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleShippingInfoChange = (e) => {
     const { name, value } = e.target;
@@ -34,9 +66,17 @@ const PaypalCheckout = () => {
       return;
     }
 
+    const customerId = getUserIdFromStorage();
+    if (!customerId) {
+      setError('Vui lòng đăng nhập để đặt hàng!');
+      alert('Vui lòng đăng nhập để đặt hàng!');
+      navigate('/login');
+      return;
+    }
+
     try {
       const order = {
-        customerId: shippingInfo.fullName, // Đổi customerID thành customerId
+        customerId,
         customerPhone: shippingInfo.phone,
         customerAddress: shippingInfo.address,
         items: cart.map((item) => ({
@@ -44,23 +84,45 @@ const PaypalCheckout = () => {
           colorId: item.selectedColorId,
           sizeId: item.selectedSizeId,
           quantity: item.quantity,
+          categoryId: item.categoryId,
+          price: item.price, // Đảm bảo gửi giá thực tế
         })),
-        payingStatus: 'pending', // Đặt trạng thái mặc định theo backend
+        payingStatus: 'pending',
       };
 
-      const response = await axiosInstance.post('/Orders', order);
-      const { paypalOrderId, approveUrl } = response.data;
+      console.log('Sending order:', order);
+      const response = await axiosInstance.post('/Orders', order, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Đảm bảo gửi token
+        },
+      });
+      console.log('Response:', response.data);
 
-      if (approveUrl) {
-        window.location.href = approveUrl; // Chuyển hướng đến PayPal
+      const { approveUrl, message, orderId, paypalOrderId, totalUSD, totalVND } = response.data;
+
+      if (approveUrl && paypalOrderId) {
+        // Lưu thông tin đơn hàng để sử dụng trong bước tiếp theo
+        navigate('/capture-paypal', {
+          state: {
+            orderId,
+            paypalOrderId,
+            payingStatus: 'pending',
+            totalUSD,
+            totalVND,
+            message,
+          },
+        });
+        // Chuyển hướng đến PayPal để phê duyệt
+        window.location.href = approveUrl;
       } else {
-        setError('Không thể tạo đơn hàng PayPal.');
-        alert('Không thể tạo đơn hàng PayPal.');
+        setError('Không thể tạo đơn hàng PayPal hoặc thông tin không đầy đủ.');
+        alert('Không thể tạo đơn hàng PayPal hoặc thông tin không đầy đủ.');
       }
     } catch (err) {
-      console.error('Error placing PayPal order:', err);
-      setError('Đã xảy ra lỗi khi đặt hàng PayPal: ' + err.response?.data?.message || err.message);
-      alert('Đã xảy ra lỗi khi đặt hàng PayPal: ' + err.message);
+      const errorMessage = err.response?.data?.message || 'Đã xảy ra lỗi khi đặt hàng PayPal: ' + err.message;
+      console.error('Error placing PayPal order:', err.response ? err.response.data : err.message);
+      setError(errorMessage);
+      alert(errorMessage);
     }
   };
 
