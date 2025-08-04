@@ -9,12 +9,12 @@ import axiosInstance from '../utils/axios';
 const sliderSettings = {
   dots: true,
   infinite: true,
-  speed: 500,
+  speed: 2000,
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: true,
   autoplay: true,
-  autoplaySpeed: 3000,
+  autoplaySpeed: 500,
   lazyLoad: 'ondemand',
   adaptiveHeight: false,
   customPaging: () => (
@@ -71,13 +71,13 @@ const Home = () => {
     return <div className="text-center p-4 text-gray-500">Không có sản phẩm.</div>;
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-screen overflow-hidden">
       <Slider {...sliderSettings}>
         {randomProducts.map((product) => (
           <Link
             key={product.id}
             to={`/product/${product.id}`}
-            className="relative w-full h-full"
+            className="relative w-full h-[60vh]" // Điều chỉnh chiều cao slider
           >
             <img
               src={product.images?.[0] || 'https://source.unsplash.com/800x500/?uniqlo,fashion'}
@@ -98,14 +98,34 @@ const Home = () => {
       </Slider>
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-6">Sản phẩm mới nhất</h2>
-        <ProductList/>
-        <h2 className="text-2xl font-bold mb-6">Sản phẩm nổi bật</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {randomProducts.map((product) => (
+            <div key={product.id} className="border p-4 rounded-lg shadow-md">
+              <Link to={`/product/${product.id}`}>
+                <img
+                  src={product.images?.[0] || 'https://source.unsplash.com/800x500/?uniqlo,fashion'}
+                  alt={product.name}
+                  className="w-full h-48 object-contain mb-2"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.src = 'https://source.unsplash.com/800x500/?uniqlo,fashion';
+                  }}
+                />
+                <h3 className="text-md font-medium">{product.name}</h3>
+                <p className="text-md font-semibold">
+                  {product.price.toLocaleString('vi-VN')} VND
+                </p>
+              </Link>
+            </div>
+          ))}
+        </div>
+        <h2 className="text-2xl font-bold mb-6 mt-10">Sản phẩm nổi bật</h2>
         <ProductList featured={true} />
       </div>
       <style jsx>{`
         .slick-slider {
           width: 100vw;
-          height: 100vh;
+          height: 60vh; /* Điều chỉnh chiều cao slider */
           overflow: hidden;
         }
         .slick-list, .slick-track {
@@ -114,7 +134,7 @@ const Home = () => {
         }
         .slick-slide {
           outline: none;
-          height: 100vh;
+          height: 60vh; /* Điều chỉnh chiều cao slide */
         }
         .slick-slide > div {
           height: 100%;

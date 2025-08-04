@@ -16,14 +16,20 @@ const LoginPage = () => {
         password: values.password,
       });
 
-      const { email, accessToken, expriesIn } = response.data;
+      const { Id, email, accessToken, expiresIn } = response.data; // Lấy _id từ phản hồi với key 'Id'
 
-      console.log('Đăng nhập thành công:', { email, accessToken, expriesIn });
+      console.log('Đăng nhập thành công:', { Id, email, accessToken, expiresIn });
 
-      // Lưu token và email vào localStorage
+      // Kiểm tra nếu Id tồn tại, nếu không có thể cần xử lý lỗi
+      if (!Id) {
+        throw new Error('Không tìm thấy ID người dùng trong phản hồi.');
+      }
+
+      // Lưu token, email, Id và thời gian hết hạn vào localStorage
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('userEmail', email);
-      localStorage.setItem('tokenexpriesInn', expriesIn);
+      localStorage.setItem('userId', Id); // Lưu _id với key 'userId'
+      localStorage.setItem('tokenExpiresIn', expiresIn);
 
       message.success('Đăng nhập thành công!');
       navigate('/');
@@ -31,7 +37,7 @@ const LoginPage = () => {
       // Trigger sự kiện loginStatusChanged
       window.dispatchEvent(new Event('loginStatusChanged'));
     } catch (error) {
-      const errorMessage = error || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
+      const errorMessage = error.response?.data?.message || error.message || 'Đăng nhập thất bại. Vui lòng kiểm tra email hoặc mật khẩu!';
       message.error(errorMessage);
       console.error('Lỗi đăng nhập:', error);
     } finally {
@@ -113,13 +119,13 @@ const LoginPage = () => {
               Hãy tạo tài khoản ngay! Bạn có thể tạo một tài khoản đặc biệt dành cho bạn với những ưu đãi hấp dẫn hoặc tạo tài khoản đơn giản cho nhân viên của bạn.
             </p>
           </div>
-          <div className=" text-center">
+          <div className="text-center">
             <Link
               to="/register"
               type="primary"
               size="large"
               block
-              className="bg-black hover:bg-gray-800 rounded-sm py-4 px-6 text-white font-medium h-14" // Tăng padding và chiều cao
+              className="bg-black hover:bg-gray-800 rounded-sm py-4 px-6 text-white font-medium h-14"
             >
               Chưa có tài khoản?
             </Link>
