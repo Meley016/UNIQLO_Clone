@@ -19,7 +19,7 @@ const CartPage = () => {
   });
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressModal, setShowAddressModal] = useState(false);
-  const [newAddress, setNewAddress] = useState({ fullName: '', phone: '', address: '' });
+  const [newAddress, setNewAddress] = useState({ fullName: '', phone: '', address: '', email: '' });
   const [paymentMethod, setPaymentMethod] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -243,7 +243,7 @@ const CartPage = () => {
     const updatedAddresses = [...addresses, newAddressData];
     setAddresses(updatedAddresses);
     localStorage.setItem('addresses', JSON.stringify(updatedAddresses));
-    setNewAddress({ fullName: '', phone: '', address: '' });
+    setNewAddress({ fullName: '', phone: '', address: '', email: '' });
     setShowAddressModal(false);
     setSelectedAddress(newAddressData);
     alert('Đã thêm địa chỉ thành công!');
@@ -628,6 +628,16 @@ const CartPage = () => {
                   type="text"
                   value={newAddress.address}
                   onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
+                  className="w-full border rounded px-3 py-2"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={newAddress.email}
+                  onChange={(e) => setNewAddress({ ...newAddress, email: e.target.value })}
                   className="w-full border rounded px-3 py-2"
                   required
                 />

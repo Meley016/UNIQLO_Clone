@@ -17,6 +17,7 @@ import LoginPage from './components/ui/login/page';
 import RegisterLayout from './components/ui/register/layout';
 import RegisterPage from './components/ui/register/page';
 import './index.css';
+import PaypalCancel from './pages/cancel-paypal';
 import HomePage from './pages/Home';
 import PaypalSuccess from './pages/paypal_success';
 import PayPalRedirect from './services/paypalRedirect';
@@ -32,6 +33,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path='/payment-success' element={<PaypalSuccess />} />
+            <Route path='/cancel-paypal' element={<PaypalCancel />} />
             <Route path="/paypal-redirect" element={<PayPalRedirect />} />
             {/* <Route path="/:parentCategoryName" element={<SubCategoryList />} /> */}
             <Route path="/:parentCategoryName" element={<ProductList />} />

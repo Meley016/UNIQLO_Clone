@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { UserOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, message } from 'antd';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const UserMenu = () => {
@@ -13,12 +13,12 @@ const UserMenu = () => {
     setIsLoggedIn(!!token); // Cập nhật trạng thái dựa trên token
   };
 
-  // Kiểm tra
+  // Kiểm tra khi component mount và khi có sự kiện
   useEffect(() => {
-    checkLoginStatus(); 
+    checkLoginStatus();
 
     window.addEventListener('loginStatusChanged', checkLoginStatus);
-    window.addEventListener('storage', checkLoginStatus); 
+    window.addEventListener('storage', checkLoginStatus);
 
     return () => {
       window.removeEventListener('loginStatusChanged', checkLoginStatus);
@@ -27,9 +27,16 @@ const UserMenu = () => {
   }, []);
 
   const handleLogout = () => {
+    // Xóa tất cả các khóa liên quan trong localStorage
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('tokenExpiresIn');
+    localStorage.removeItem('_id'); // Thêm _id
+    localStorage.removeItem('addresses'); // Thêm địa chỉ
+    localStorage.removeItem('cart'); // Thêm giỏ hàng
+    localStorage.removeItem('orderHistory'); // Thêm lịch sử đơn hàng
+    localStorage.removeItem('user'); // Thêm thông tin user (nếu có)
+
     setIsLoggedIn(false);
     message.success('Đăng xuất thành công!');
     navigate('/login');
