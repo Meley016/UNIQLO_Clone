@@ -25,26 +25,29 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch product details
         const productResponse = await axiosInstance.get(`/Products/${id}`);
         const productData = productResponse.data;
-
         if (!productData) throw new Error('Sản phẩm không tồn tại');
         console.log('Product data:', productData); // Debug toàn bộ dữ liệu sản phẩm
         console.log('Product images:', productData.images); // Debug dữ liệu ảnh
         setProduct(productData);
 
+        // Fetch colors
         const colorsResponse = await axiosInstance.get('/Colors');
         if (!colorsResponse.data.items || !Array.isArray(colorsResponse.data.items)) {
           throw new Error('Dữ liệu màu sắc không hợp lệ');
         }
         setColorsData(colorsResponse.data.items);
 
+        // Fetch sizes
         const sizesResponse = await axiosInstance.get('/Sizes');
         if (!sizesResponse.data.items || !Array.isArray(sizesResponse.data.items)) {
           throw new Error('Dữ liệu kích cỡ không hợp lệ');
         }
         setSizesData(sizesResponse.data.items);
 
+        // Fetch related products
         const relatedResponse = await axiosInstance.get('/Products', {
           params: { page: 1, pageSize: 100 },
         });
@@ -56,10 +59,13 @@ const ProductDetail = () => {
           .slice(0, 4);
         setRelatedProducts(related);
 
-        const defaultVariant = productData.variants?.[0] || { colorId: 'COL00', sizeId: 'SIZE01' };
+        // Set default variant
+        const defaultVariant = productData.variants?.[0] || { colorId: null, sizeId: null };
+        const initialColorId = searchParams.get('colorId') || defaultVariant.colorId;
+        const initialSizeId = searchParams.get('sizeId') || defaultVariant.sizeId;
         setSelectedVariant({
-          colorId: searchParams.get('colorId') || defaultVariant.colorId,
-          sizeId: searchParams.get('sizeId') || defaultVariant.sizeId,
+          colorId: initialColorId,
+          sizeId: initialSizeId,
         });
 
         setLoading(false);
@@ -74,11 +80,11 @@ const ProductDetail = () => {
   }, [id, searchParams]);
 
   useEffect(() => {
-    if (product && selectedVariant?.colorId) {
+    if (product && selectedVariant?.colorId && product.variants) {
       const uniqueSizes = [
         ...new Map(
           product.variants
-            ?.filter((v) => v.colorId === selectedVariant.colorId)
+            .filter((v) => v.colorId === selectedVariant.colorId)
             .map((v) => [
               v.sizeId,
               {
@@ -114,7 +120,9 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = () => {
-    if (!selectedVariant) return alert('Vui lòng chọn màu sắc và kích cỡ!');
+    if (!selectedVariant?.colorId || !selectedVariant?.sizeId) {
+      return alert('Vui lòng chọn màu sắc và kích cỡ!');
+    }
     const selected = product.variants?.find(
       (v) => v.colorId === selectedVariant.colorId && v.sizeId === selectedVariant.sizeId
     );
@@ -193,8 +201,8 @@ const ProductDetail = () => {
     arrows: product.images && product.images.length > 1,
     autoplay: product.images && product.images.length > 1,
     autoplaySpeed: 3000,
-    lazyLoad: 'ondemand', // Load ảnh theo yêu cầu để cải thiện hiệu suất
-    adaptiveHeight: false, // Đảm bảo chiều cao cố định
+    lazyLoad: 'ondemand',
+    adaptiveHeight: false,
     customPaging: () => (
       <div className="w-3 h-3 bg-gray-300 rounded-full hover:bg-gray-500 transition"></div>
     ),
@@ -213,7 +221,7 @@ const ProductDetail = () => {
         ❯
       </button>
     ),
-    afterChange: (current) => console.log('Current slide:', current), // Debug slide hiện tại
+    afterChange: (current) => console.log('Current slide:', current),
   };
 
   return (
@@ -232,7 +240,7 @@ const ProductDetail = () => {
           .slick-slide {
             outline: none;
             height: 100%;
-            min-height: 400px; /* Đảm bảo chiều cao tối thiểu */
+            min-height: 400px;
           }
           .slick-slide > div {
             height: 100%;
@@ -243,21 +251,21 @@ const ProductDetail = () => {
           .slick-slide img {
             width: 100%;
             height: 100%;
-            max-height: 500px; /* Giới hạn chiều cao tối đa */
+            max-height: 500px;
             object-fit: contain;
             display: block;
             transition: transform 0.3s ease;
           }
           .slick-slide img:hover {
-            transform: scale(2);
+            transform: scale(1.05);
             transform-origin: center;
             cursor: zoom-in;
           }
           .slick-dots li button:before {
-            color: #d1d5db; /* Màu dots */
+            color: #d1d5db;
           }
           .slick-dots li.slick-active button:before {
-            color: #374151; /* Màu dot khi active */
+            color: #374151;
           }
         `}
       </style>
@@ -267,14 +275,14 @@ const ProductDetail = () => {
             <Slider {...sliderSettings} ref={sliderRef}>
               {product.images && product.images.length > 0 ? (
                 product.images
-                  .filter((image) => image && typeof image === 'string') // Loại bỏ giá trị không hợp lệ
+                  .filter((image) => image && typeof image === 'string')
                   .map((image, index) => (
                     <div key={index} className="relative w-full h-full">
                       <div className="w-full h-full flex items-center justify-center">
                         <img
                           src={image || 'https://via.placeholder.com/400'}
                           alt={`${product.name} - ${index + 1}`}
-                          className="w-full h-full object-contain transition-transform duration-300 hover:scale-200 cursor-zoom-in"
+                          className="w-full h-full object-contain transition-transform duration-300 hover:scale-105 cursor-zoom-in"
                           style={{ transformOrigin: 'center' }}
                           onError={(e) => {
                             console.log(`Failed to load image: ${image}`);
@@ -290,7 +298,7 @@ const ProductDetail = () => {
                     <img
                       src="https://via.placeholder.com/400"
                       alt={product.name}
-                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-200 cursor-zoom-in"
+                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-105 cursor-zoom-in"
                       style={{ transformOrigin: 'center' }}
                       onError={() => console.log('Failed to load default image')}
                     />
@@ -302,7 +310,7 @@ const ProductDetail = () => {
           {product.images && product.images.length > 1 && (
             <div className="flex gap-2 mt-4 justify-center">
               {product.images
-                .filter((image) => image && typeof image === 'string') // Loại bỏ giá trị không hợp lệ
+                .filter((image) => image && typeof image === 'string')
                 .map((image, index) => (
                   <img
                     key={index}
@@ -354,7 +362,7 @@ const ProductDetail = () => {
               {colors.map((colorId) => (
                 <button
                   key={colorId}
-                  onClick={() => handleVariantChange(colorId, selectedVariant?.sizeId)}
+                  onClick={() => handleVariantChange(colorId, selectedVariant?.sizeId || sizeOptions[0]?.id)}
                   className={`w-10 h-10 rounded-full border-2 transition-all duration-300 ${
                     selectedVariant?.colorId === colorId ? 'border-blue-500 scale-110' : 'border-gray-300'
                   } hover:scale-110`}
@@ -375,7 +383,7 @@ const ProductDetail = () => {
               {sizeOptions.map((size) => (
                 <button
                   key={size.id}
-                  onClick={() => handleVariantChange(selectedVariant?.colorId, size.id)}
+                  onClick={() => handleVariantChange(selectedVariant?.colorId || colors[0], size.id)}
                   className={`px-4 py-2 border rounded-md text-sm font-medium transition-all duration-300 ${
                     selectedVariant?.sizeId === size.id
                       ? 'border-blue-500 bg-blue-50 text-blue-700'
