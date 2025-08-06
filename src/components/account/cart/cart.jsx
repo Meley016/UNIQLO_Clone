@@ -266,10 +266,13 @@ const CartPage = () => {
       return;
     }
 
+    console.log('Customer Email:', selectedAddress.email); // Log email
+
     const orderData = {
       customerId,
       customerPhone: selectedAddress.phone,
       customerAddress: selectedAddress.address,
+      customerEmail: selectedAddress.email,
       items: cart.map((item) => ({
         productId: item.id,
         colorId: item.selectedColorId,

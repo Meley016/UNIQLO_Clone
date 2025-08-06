@@ -9,6 +9,7 @@ const CODCheckout = () => {
     fullName: selectedAddress?.fullName || '',
     address: selectedAddress?.address || '',
     phone: selectedAddress?.phone || '',
+    email: selectedAddress?.email || '', // Fixed: Corrected from phone to email
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const CODCheckout = () => {
     e.preventDefault();
     setError(null);
 
-    if (!shippingInfo.fullName || !shippingInfo.address || !shippingInfo.phone) {
+    if (!shippingInfo.fullName || !shippingInfo.address || !shippingInfo.phone || !shippingInfo.email) {
       setError('Vui lòng nhập đầy đủ thông tin giao hàng!');
       alert('Vui lòng nhập đầy đủ thông tin giao hàng!');
       return;
@@ -71,6 +72,7 @@ const CODCheckout = () => {
         customerId, // Sử dụng nameid từ token
         customerPhone: shippingInfo.phone,
         customerAddress: shippingInfo.address,
+        customerEmail: shippingInfo.email,
         items: cart.map((item) => ({
           productId: item.id,
           colorId: item.selectedColorId,
@@ -81,6 +83,7 @@ const CODCheckout = () => {
         payingStatus: 'pending',
       };
 
+      console.log('Customer Email:', shippingInfo.email); // Log email
       console.log('Sending order:', order); // Debug dữ liệu gửi đi
       const response = await axiosInstance.post('/Orders', order);
       console.log('Response:', response.data); // Debug phản hồi
@@ -89,8 +92,8 @@ const CODCheckout = () => {
       navigate('/order-history');
     } catch (err) {
       console.error('Error placing COD order:', err.response ? err.response.data : err);
-      setError('Đã xảy ra lỗi khi đặt hàng COD: ' + (err.response?.data?.message));
-      alert('Đã xảy ra lỗi khi đặt hàng COD: ' + (err.response?.data?.message));
+      setError('Đã xảy ra lỗi khi đặt hàng COD: ' + (err.response?.data?.message || err.message));
+      alert('Đã xảy ra lỗi khi đặt hàng COD: ' + (err.response?.data?.message || err.message));
     }
   };
 
@@ -131,6 +134,18 @@ const CODCheckout = () => {
             value={shippingInfo.phone}
             onChange={handleShippingInfoChange}
             placeholder="Nhập số điện thoại"
+            className="w-full border rounded px-2 py-1"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={shippingInfo.email}
+            onChange={handleShippingInfoChange}
+            placeholder="Nhập email"
             className="w-full border rounded px-2 py-1"
             required
           />

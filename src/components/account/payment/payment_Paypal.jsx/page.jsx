@@ -9,6 +9,7 @@ const PaypalCheckout = () => {
     fullName: selectedAddress?.fullName || '',
     address: selectedAddress?.address || '',
     phone: selectedAddress?.phone || '',
+    email: selectedAddress?.email || '',
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -79,6 +80,7 @@ const PaypalCheckout = () => {
         customerId,
         customerPhone: shippingInfo.phone,
         customerAddress: shippingInfo.address,
+        customerEmail: shippingInfo.email,
         items: cart.map((item) => ({
           productId: item.id,
           colorId: item.selectedColorId,
@@ -163,6 +165,18 @@ const PaypalCheckout = () => {
             value={shippingInfo.phone}
             onChange={handleShippingInfoChange}
             placeholder="Nhập số điện thoại"
+            className="w-full border rounded px-2 py-1"
+            required
+          />
+        </div>
+                <div>
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            name="Email"
+            value={shippingInfo.email}
+            onChange={handleShippingInfoChange}
+            placeholder="Nhập email !"
             className="w-full border rounded px-2 py-1"
             required
           />
