@@ -14,7 +14,7 @@ export default function EditProfileSection() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axiosInstance.get(`/Customer/${_id}`);
+        const response = await axiosInstance.get(`/Account/user-info`);
         const user = response.data;
         setFormData({
           email: user.Email || '',
@@ -49,7 +49,7 @@ export default function EditProfileSection() {
         CreatedAt: formData.birthdate ? new Date(formData.birthdate).toISOString() : undefined,
         Gender: formData.gender,
       };
-      await axiosInstance.patch(`/Customer/${_id}`, updates);
+      await axiosInstance.patch(`/Account/user-info`, updates);
       message.success('Cập nhật hồ sơ thành công!');
     } catch (error) {
       console.error('Lỗi khi cập nhật hồ sơ:', error);
